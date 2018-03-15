@@ -83,7 +83,7 @@ class Timetable extends Component {
         return (
             <div className='Timetable'>
                 <div className='prayerHeader'>
-                    <div>Prayer</div><div>Time</div>
+                    <div>Prayer</div><div className='adhanTime'>Adhan</div><div className='iqamahTime'>Iqamah</div>
                 </div>
                     {this.renderPrayers()}
                     {/* {console.log(this.state.prayers)} */}

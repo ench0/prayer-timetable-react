@@ -6,11 +6,18 @@ import Clock from './components/Clock';
 import Timetable from './components/Timetable';
 import Countdown from './components/Countdown';
 import Message from './components/Message';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 import moment from 'moment-hijri'
-import settings from './settings.json'
+import defsettings from './settings.json'
 
-import timetable from './cities/dublin.json'
+import deftimetable from './cities/dublin.json'
+
+
+// var settings = defsettings
+// var timetable = deftimetable
+
 
 class App extends Component {
 
@@ -19,17 +26,50 @@ class App extends Component {
         super(props)
 
         this.state = {
-            timetable: [],
+            timetable: deftimetable,
             dst: 0,
             date: new Date(),
-            prayers: [],
-            tomorrow: 0
+            day: '',
+            prayers: {next: {time: moment(), name: ''}, current: '', list: []},
+            tomorrow: 0,
+            settings: defsettings
         }
 
     }
 
+    /* JAMAAH CALC */
+    jamaahCalc = function(num, time, timenext) {
+        // console.log ("jamaahcalc",this)
+
+        var jamaahMethodSetting = (this.state.settings.jamaahmethods).split(',')[num]
+        var jamaahOffsetSetting = ((this.state.settings.jamaahoffsets).split(',')[num]).split(':')
+
+        var jamaahOffset
+        switch (jamaahMethodSetting) {
+        case 'afterthis':
+            jamaahOffset = parseInt(jamaahOffsetSetting[0] * 60 + jamaahOffsetSetting[1], 10)
+            break
+        case 'fixed':
+            jamaahOffset = (moment().month(time.get('month')).date(time.get('date')).hour(jamaahOffsetSetting[0]).minute(jamaahOffsetSetting[1])).diff(time, 'minutes')
+            if (moment().month(time.get('month')).date(time.get('date')).hour(jamaahOffsetSetting[0]).minute(jamaahOffsetSetting[1]).isBefore(time)) jamaahOffset--
+            break
+        case 'beforenext':
+            jamaahOffset = (timenext.subtract({
+                minutes: parseInt(jamaahOffsetSetting[0] * 60 + jamaahOffsetSetting[1], 10)
+            })).diff(time, 'minutes')
+            break
+        case '':
+            jamaahOffset = ''
+            break
+        default:
+            jamaahOffset = 0
+        }
+        // console.log(jamaahOffset)
+        return jamaahOffset
+    }
     
     Prayers(tomorrow) {
+        // console.log(this.state.timetable)
         var dst = this.state.dst
         var current, next, list
 
@@ -47,20 +87,36 @@ class App extends Component {
             {
                 name: prayer,
                 time: moment({
-                    hour: timetable[month][date][index][0],
-                    minute: timetable[month][date][index][1]
-                })
+                    hour: this.state.timetable[month][date][index][0],
+                    minute: this.state.timetable[month][date][index][1]
+                }),
+                jamaah: {
+                    offset: this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})),
+                    time: moment({
+                        hour: this.state.timetable[month][date][index][0],
+                        minute: this.state.timetable[month][date][index][1]
+                    }).add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
+                }
             }
         ));
         prayerNames.forEach((prayer, index) => listTomorrow.push(
             {
                 name: prayer,
                 time: moment({
-                    hour: timetable[tmonth][tdate][index][0],
-                    minute: timetable[tmonth][tdate][index][1]
-                }).add(1, 'day')
+                    hour: this.state.timetable[tmonth][tdate][index][0],
+                    minute: this.state.timetable[tmonth][tdate][index][1]
+                }).add(1, 'day'),
+                jamaah: {
+                    offset: this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})),
+                    time: moment({
+                        hour: this.state.timetable[tmonth][tdate][index][0],
+                        minute: this.state.timetable[tmonth][tdate][index][1]
+                    }).add(1, 'day').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
+                }
             }
         ));        
+
+        // console.log(listToday)
 
 
         if (moment().isBetween(moment().startOf('day'), listToday[0].time)) {
@@ -123,7 +179,7 @@ class App extends Component {
             tomorrow = 1
             current = {name: listToday[5].name, time: listToday[5].time}//.clone().add(-1, 'day')}
             list = listTomorrow
-
+            next = {name: listTomorrow[0].name, time: listTomorrow[0].time}
             // next = {name: 'midnight', time: moment().endOf('day')}
         }
   
@@ -145,23 +201,53 @@ class App extends Component {
 
     Day(tomorrow) {
         var gregorian = moment().add(tomorrow, 'day').format('dddd, D MMMM YYYY')
-        var hijri = moment().add((parseInt(settings.hijrioffset, 10) + parseInt(tomorrow, 10)), 'day').format('iD iMMMM iYYYY')
+        var hijri = moment().add((parseInt(this.state.settings.hijrioffset, 10) + parseInt(tomorrow, 10)), 'day').format('iD iMMMM iYYYY')
 
         return {gregorian, hijri, tomorrow} 
     }
 
 
-    componentWillMount() {
+
+    async componentWillMount()
+    {
         this.setState({
             prayers: this.Prayers(this.state.tomorrow),
-            day: this.Day(this.state.tomorrow)
+            day: this.Day(this.state.tomorrow),
         })
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+
+        try {
+            // var settings, timetable
+
+            if (await localStorage.getItem('settings') !== 'undefined') {
+                // settings = JSON.parse(await localStorage.getItem('settings'))
+                var newsettings = await localStorage.getItem('settings')             
+                }
+                if (await localStorage.getItem('timetable') !== 'undefined') {
+                // timetable = JSON.parse(await localStorage.getItem('timetable'))
+                var newtimetable = await localStorage.getItem('timetable')
+                }
+
+            await this.setState({settings: newsettings, timetable: newtimetable})  
+        } catch (error) {
+            console.log(error)
+        }
+
+        await this.update()
+
+        // console.log(this.state.settings)
+
+
+
         this.timerID = setInterval(
             () => this.tick(),
             1000
+        )
+        this.updateID = setInterval(
+            () => this.update(),
+            3600*1000
         )
     }
 
@@ -175,6 +261,27 @@ class App extends Component {
             day: this.Day(this.state.tomorrow),
             date: new Date(),
         })
+
+
+        // localStorage.setItem('settings', 'koko')
+    
+        // console.log(localStorage.getItem('settings'))
+    }
+
+    async update() {
+        try {
+            const res = await fetch('https://timetable.islamireland.ie/api/', {mode: 'cors'})
+            // set vars
+            var {settings,timetable} = await res.json()
+            // console.log(settings)
+            // update states and storage
+            await this.setState({settings,timetable})
+            await localStorage.setItem('settings', settings);
+            await localStorage.setItem('timetable', timetable);
+            // console.log('timetable', timetable)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 
@@ -185,6 +292,7 @@ class App extends Component {
         return (
         <div className="App">
 
+            <Header settings={this.state.settings} />
             <Clock day={this.state.day} date={this.state.date} />
             <Timetable
                 prayers={this.state.prayers}
@@ -192,8 +300,9 @@ class App extends Component {
             <Countdown 
                 prayers={this.state.prayers}
             />
-            <Message />       
- 
+            <Message settings={this.state.settings} />       
+            <Footer settings={this.state.settings} />
+
         </div>
         );
     }

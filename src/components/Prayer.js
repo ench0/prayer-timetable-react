@@ -46,18 +46,21 @@ class Prayer extends Component {
 
     render() {
         // console.log(this.props.next, this.props.prayer.name)
-        var current
-        if(this.props.next === this.props.prayer.name) current = 'prayerRow current'; else current = 'prayerRow'
+        var next
+        if(this.props.next === this.props.prayer.name) next = 'prayerRow next'; else next = 'prayerRow'
 
         return (
-            <div className={current}>
+            <div className={next}>
 
                 <div className='prayerName'>
                     {this.props.prayer.name}
                     
                 </div>
-                <div className='prayerTime'>
+                <div className='adhanTime'>
                     {this.props.prayer.time.format('H:mm')}
+                </div>
+                <div className='iqamahTime'>
+                    {this.props.prayer.jamaah.time.format('H:mm')}
                 </div>
             </div>
         );

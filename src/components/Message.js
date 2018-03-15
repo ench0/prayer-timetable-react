@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 // import './App.css';
 // import moment from 'moment-hijri'
-import settings from '../settings.json'
+// import settings from '../settings.json'
 
 
 class Message extends Component {
@@ -11,7 +11,7 @@ class Message extends Component {
         super(props)
 
         this.state = {
-            
+            settings: this.props.settings
         }
     }
 
@@ -22,12 +22,24 @@ class Message extends Component {
     componentWillUnmount() {
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.settings !== this.state.settings) {
+          this.setState({ settings: nextProps.settings });
+        }
+    }
+
     render() {
 
         return (
             <div className="Message">
-                <h3>{settings.announcement}</h3>
-                <div>{settings.body}</div>
+                <h3>{this.state.settings.announcement}</h3>
+                {/* <div>{this.state.settings.body}</div> */}
+                {/* <marquee behavior="scroll" direction="up" className="marquee" scrolldelay="300">{this.state.settings.body}</marquee> */}
+
+                <div className="mContainer">
+                    <p className="marquee">{this.state.settings.body}</p>
+                </div>
+
             </div>
         );
     }

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // import './App.css';
 // import moment from 'moment-hijri'
 // import settings from '../settings.json'
-
+import mainLogo from'../img/logo.svg';
 
 class Clock extends Component {
 
@@ -53,6 +53,7 @@ class Clock extends Component {
         
         return (
             <div className="Clock">
+                <img  src={mainLogo} className="logo" alt="logo"/>
                  <div className="timeRow">
                     {this.state.date.toLocaleTimeString()}
                 </div>
