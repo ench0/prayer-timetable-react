@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
-import './App.css';
+import './style/App.css';
 
+import Overlay from './components/Overlay';
 import Clock from './components/Clock';
 import Timetable from './components/Timetable';
 import Countdown from './components/Countdown';
@@ -32,7 +33,8 @@ class App extends Component {
             day: '',
             prayers: {next: {time: moment(), name: ''}, current: '', list: []},
             tomorrow: 0,
-            settings: defsettings
+            settings: defsettings,
+            jamaahShow: 1
         }
 
     }
@@ -132,6 +134,10 @@ class App extends Component {
             current = {name: listToday[0].name, time: listToday[0].time}
             next = {name: listToday[1].name, time: listToday[1].time}
             list = listToday
+            // jamaah
+            if(this.state.jamaahShow === 1 && moment().isBetween(listToday[0].time,  listToday[0].jamaah.time)) {
+                next = {name: listToday[0].name+' jamaah', time: listToday[0].jamaah.time}
+            }
             // console.log('case 2')
         }
         // shurooq-dhuhr
@@ -148,6 +154,10 @@ class App extends Component {
             current = {name: listToday[2].name, time: listToday[2].time}
             next = {name: listToday[3].name, time: listToday[3].time}
             list = listToday
+            // jamaah
+            if(this.state.jamaahShow === 1 && moment().isBetween(listToday[2].time,  listToday[2].jamaah.time)) {
+                next = {name: listToday[2].name+' jamaah', time: listToday[2].jamaah.time}
+            }
             // console.log('case 4')
         }
         // asr-maghrib
@@ -156,6 +166,10 @@ class App extends Component {
             current = {name: listToday[3].name, time: listToday[3].time}
             next = {name: listToday[4].name, time: listToday[4].time}
             list = listToday
+            // jamaah
+            if(this.state.jamaahShow === 1 && moment().isBetween(listToday[3].time,  listToday[3].jamaah.time)) {
+                next = {name: listToday[3].name+' jamaah', time: listToday[3].jamaah.time}
+            }
             // console.log('case 5')
         }
         // maghrib-isha
@@ -165,6 +179,10 @@ class App extends Component {
             current = {name: listToday[4].name, time: listToday[4].time}
             next = {name: listToday[5].name, time: listToday[5].time}
             list = listToday
+            // jamaah
+            if(this.state.jamaahShow === 1 && moment().isBetween(listToday[4].time,  listToday[4].jamaah.time)) {
+                next = {name: listToday[4].name+' jamaah', time: listToday[4].jamaah.time}
+            }
             // console.log('case 6')
         }
         // isha-midnight
@@ -173,6 +191,10 @@ class App extends Component {
             current = {name: listToday[5].name, time: listToday[5].time}
             next = {name: listTomorrow[0].name, time: listTomorrow[0].time}
             list = listTomorrow
+            // jamaah
+            if(this.state.jamaahShow === 1 && moment().isBetween(listToday[5].time,  listToday[5].jamaah.time)) {
+                next = {name: listToday[5].name+' jamaah', time: listToday[5].jamaah.time}
+            }
             // console.log('case 7')
         }
         else {
@@ -213,6 +235,8 @@ class App extends Component {
         this.setState({
             prayers: this.Prayers(this.state.tomorrow),
             day: this.Day(this.state.tomorrow),
+            settings: defsettings,
+            jamaahShow: 1
         })
     }
 
@@ -292,6 +316,7 @@ class App extends Component {
         return (
         <div className="App">
 
+            <Overlay settings={this.state.settings} />
             <Header settings={this.state.settings} />
             <Clock day={this.state.day} date={this.state.date} />
             <Timetable

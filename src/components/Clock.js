@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 // import './App.css';
-// import moment from 'moment-hijri'
+import moment from 'moment-hijri'
 // import settings from '../settings.json'
-import mainLogo from'../img/logo.svg';
+import mainLogo from'../style/img/logo.svg';
 
 class Clock extends Component {
 
@@ -55,7 +55,8 @@ class Clock extends Component {
             <div className="Clock">
                 <img  src={mainLogo} className="logo" alt="logo"/>
                 <div className="timeRow">
-                    {this.state.date.toLocaleTimeString()}
+                    {/* {this.state.date.toLocaleTimeString()} */}
+                    {moment().format('H:mm:ss')}
                 </div>
                 <div className="dateRow">
                     <div>{this.state.day.gregorian}</div>

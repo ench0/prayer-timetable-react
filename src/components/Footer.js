@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 // import settings from '../settings.json'
 import moment from 'moment-hijri'
 import { Offline, Online } from 'react-detect-offline';
-import wifiOn from'../img/wifiOn.svg';
-import wifiOff from'../img/wifiOff.svg';
+import wifiOn from'../style/img/wifiOn.svg';
+import wifiOff from'../style/img/wifiOff.svg';
 
 class Footer extends Component {
 
