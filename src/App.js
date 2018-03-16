@@ -34,7 +34,9 @@ class App extends Component {
             prayers: {next: {time: moment(), name: ''}, current: '', list: []},
             tomorrow: 0,
             settings: defsettings,
-            jamaahShow: 1
+            jamaahShow: 1,
+            overlayTitle: 'Welcome',
+            jummuahTime: moment({ hour: '13', minute: '10' }).day(4)
         }
 
     }
@@ -283,10 +285,12 @@ class App extends Component {
         this.setState({
             prayers: this.Prayers(this.state.tomorrow),
             day: this.Day(this.state.tomorrow),
-            date: new Date(),
         })
 
-
+        if (moment().isBetween(this.state.jummuahTime, this.state.jummuahTime.add(5, 'hour'))) this.setState({
+            overlayActive: 1
+        })
+        console.log(this.state.jummuahTime)
         // localStorage.setItem('settings', 'koko')
     
         // console.log(localStorage.getItem('settings'))
@@ -316,9 +320,9 @@ class App extends Component {
         return (
         <div className="App">
 
-            <Overlay settings={this.state.settings} />
+            <Overlay settings={this.state.settings} day={this.state.day} title={this.state.overlayTitle} overlayActive={null} />
             <Header settings={this.state.settings} />
-            <Clock day={this.state.day} date={this.state.date} />
+            <Clock day={this.state.day} />
             <Timetable
                 prayers={this.state.prayers}
             />

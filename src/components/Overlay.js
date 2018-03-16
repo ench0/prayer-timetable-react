@@ -11,14 +11,14 @@ class Overlay extends Component {
         super(props)
 
         this.state = {
-            settings: this.props.settings
+            settings: this.props.settings,
+            day: this.props.day,
+            title: this.props.title,
+            overlayActive: null
         }
     }
 
     componentDidMount() {
-        const height = this.divElement.clientHeight
-        this.setState({height})
-        // console.log(height)
     }
 
     componentWillUnmount() {
@@ -26,19 +26,23 @@ class Overlay extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.settings !== this.state.settings) {
-          this.setState({ settings: nextProps.settings });
+          this.setState({ settings: nextProps.settings, day: nextProps.day, overlayActive: nextProps.overlayActive });
         }
     }
 
     render() {
+        let overlayActive
+        if (this.state.overlayActive) overlayActive = 'Overlay overlayActive'
+        else overlayActive = 'Overlay'
         return (
-            <div className="Overlay" ref={(divElement) => this.divElement = divElement}>
+            <div className={overlayActive}>
                 <div>
-                    {/* {this.state.settings.announcement} */}
-                    {/* {this.state.height} */}
-                    KOKO
+                    {this.state.day.gregorian}
                 </div>
-                <h3>title</h3>
+                <div>
+                    {this.state.day.hijri}
+                </div>
+                <h1>{this.state.title}</h1>
                 {/* <div>{this.state.settings.body}</div> */}
                 {/* <marquee behavior="scroll" direction="up" className="marquee" scrolldelay="300">{this.state.settings.body}</marquee> */}
 

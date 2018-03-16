@@ -30,14 +30,27 @@ h3 {
     display: flex;
     flex: 1;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba(0,0,0,.75);
-    height: 100px;
-    width: 100px;
+    background: rgba(0,0,0,.0);
+    height: 100%;
+    width: 100%;
+    /* font-size: 150%; */
+    opacity: 0;
+    transition: background 15s, display 15s, z-index 15s, opacity 15s;
 }
+.overlayActive {
+    background: rgba(0,0,0,.85);
+    opacity: 1;
+}
+.Overlay div, .Overlay h1 {
+    color: rgba(255,255,255,.75);
+}
+
+
 /* .2+.45+.075+.225+2*.025 */
 /* COMPONENTS */
 .Clock {
@@ -225,7 +238,7 @@ h3 {
   .logo {
       height: 130px;
       padding-bottom: 35px;
-      opacity: .7;
+      /* opacity: .7; */
   }
   .wifiOff {
       height: 25px;
