@@ -16,7 +16,9 @@ class Message extends Component {
     }
 
     componentDidMount() {
-
+        const height = this.divElement.clientHeight
+        this.setState({height})
+        // console.log(height)
     }
 
     componentWillUnmount() {
@@ -29,10 +31,12 @@ class Message extends Component {
     }
 
     render() {
-
         return (
-            <div className="Message">
-                <h3>{this.state.settings.announcement}</h3>
+            <div className="Message" ref={(divElement) => this.divElement = divElement}>
+                <h3>
+                    {this.state.settings.announcement}
+                    {/* {this.state.height} */}
+                </h3>
                 {/* <div>{this.state.settings.body}</div> */}
                 {/* <marquee behavior="scroll" direction="up" className="marquee" scrolldelay="300">{this.state.settings.body}</marquee> */}
 
