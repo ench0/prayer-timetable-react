@@ -54,7 +54,7 @@ class Clock extends Component {
         return (
             <div className="Clock">
                 <img  src={mainLogo} className="logo" alt="logo"/>
-                 <div className="timeRow">
+                <div className="timeRow">
                     {this.state.date.toLocaleTimeString()}
                 </div>
                 <div className="dateRow">

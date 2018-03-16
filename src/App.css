@@ -6,7 +6,7 @@ html, body, #root {
 body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 48px;
-    background: url('img/bg.svg') rgb(151, 174, 157);
+    background: url('img/bg.png') rgb(151, 174, 157);
 }
 h3 {
     padding: 0;
@@ -267,3 +267,9 @@ h3 {
       padding-bottom: 35px;
       opacity: .7;
   }
+  .wifiOff {
+      height: 30px;
+  }
+  .wifiOn {
+    height: 30px;
+}
