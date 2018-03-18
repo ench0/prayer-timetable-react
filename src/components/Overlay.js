@@ -14,7 +14,7 @@ class Overlay extends Component {
             settings: this.props.settings,
             day: this.props.day,
             title: this.props.title,
-            overlayActive: null
+            overlayActive: this.props.overlayActive
         }
     }
 
@@ -26,12 +26,18 @@ class Overlay extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.settings !== this.state.settings) {
-          this.setState({ settings: nextProps.settings, day: nextProps.day, overlayActive: nextProps.overlayActive });
+          this.setState({ settings: nextProps.settings, day: nextProps.day });
         }
+        if (nextProps.overlayActive !== this.state.overlayActive) {
+            this.setState({ overlayActive: nextProps.overlayActive });
+        }
+        // console.log(nextProps.overlayActive)
+        // console.log(this.state.overlayActive)
     }
 
     render() {
         let overlayActive
+        // console.log(this.state.overlayActive)
         if (this.state.overlayActive) overlayActive = 'Overlay overlayActive'
         else overlayActive = 'Overlay'
         return (

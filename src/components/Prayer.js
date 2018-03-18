@@ -45,9 +45,9 @@ class Prayer extends Component {
 
 
     render() {
-        // console.log(this.props.next, this.props.prayer.name)
+        // console.log(this.props.nextName, this.props.prayer.name)
         var next
-        if(this.props.next === this.props.prayer.name) next = 'prayerRow next'; else next = 'prayerRow'
+        if(this.props.nextName === this.props.prayer.name || this.props.nextName === this.props.prayer.name+' jamaah') next = 'prayerRow next'; else next = 'prayerRow'
 
         return (
             <div className={next}>

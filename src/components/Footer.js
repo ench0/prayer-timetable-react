@@ -10,7 +10,7 @@ class Footer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            
+            settings: this.props.settings
         }
     }
 
@@ -20,12 +20,18 @@ class Footer extends Component {
     componentWillUnmount() {
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.settings !== this.state.settings) {
+          this.setState({ settings: nextProps.settings });
+        }
+    }
+
     render() {
 
         return (
             <div className="Footer">
                 {/* {console.log(settings)} */}
-                <div>{this.props.settings.jummuahlabel} {this.props.settings.jummuahtime}</div>
+                <div>{this.state.settings.jummuahlabel} {this.state.settings.jummuahtime}</div>
                 <div>
                     <Offline>
                         <img  src={wifiOff} className="wifiOff" alt="wifiOff"/>
@@ -34,7 +40,7 @@ class Footer extends Component {
                         <img  src={wifiOn} className="wifiOn" alt="wifiOn"/>
                     </Online>
                 </div>
-                <div>Updated {moment(this.props.settings.update).format('DD/MM/YY')}</div>
+                <div>Updated {moment(this.state.settings.update).format('DD/MM/YY')}</div>
             </div>
         );
     }

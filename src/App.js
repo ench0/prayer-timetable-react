@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
+import './style/normalize.css';
 import './style/App.css';
 
 import Overlay from './components/Overlay';
@@ -36,7 +37,8 @@ class App extends Component {
             settings: defsettings,
             jamaahShow: 1,
             overlayTitle: 'Welcome',
-            jummuahTime: moment({ hour: '13', minute: '10' }).day(4)
+            jummuahTime: moment({ hour: '13', minute: '10' }).day(5),
+            overlayActive: null
         }
 
     }
@@ -238,7 +240,7 @@ class App extends Component {
             prayers: this.Prayers(this.state.tomorrow),
             day: this.Day(this.state.tomorrow),
             settings: defsettings,
-            jamaahShow: 1
+            // jamaahShow: 1
         })
     }
 
@@ -287,10 +289,15 @@ class App extends Component {
             day: this.Day(this.state.tomorrow),
         })
 
-        if (moment().isBetween(this.state.jummuahTime, this.state.jummuahTime.add(5, 'hour'))) this.setState({
-            overlayActive: 1
-        })
-        console.log(this.state.jummuahTime)
+        if (moment().isBetween(this.state.jummuahTime, this.state.jummuahTime.clone().add(1, 'hour'))){
+                this.setState({
+                overlayActive: 1
+            })
+            // console.log('ok')
+        }
+        // console.log(moment().isBetween(this.state.jummuahTime, this.state.jummuahTime.clone().add(7, 'hour')))
+        console.log(this.state.jummuahTime.format('dddd D/M H:m'))
+
         // localStorage.setItem('settings', 'koko')
     
         // console.log(localStorage.getItem('settings'))
@@ -316,11 +323,11 @@ class App extends Component {
 
     render() {
 
-        // console.log(this.state.next)
+        // console.log(this.state.settings)
         return (
         <div className="App">
 
-            <Overlay settings={this.state.settings} day={this.state.day} title={this.state.overlayTitle} overlayActive={null} />
+            <Overlay settings={this.state.settings} day={this.state.day} title={this.state.overlayTitle} overlayActive={this.state.overlayActive} />
             <Header settings={this.state.settings} />
             <Clock day={this.state.day} />
             <Timetable

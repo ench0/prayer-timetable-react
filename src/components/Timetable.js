@@ -72,7 +72,7 @@ class Timetable extends Component {
         return (
             <div>
                 {list.map((prayer, index) => {
-                    return <Prayer key={index} prayer={prayer} next={nextName}/>
+                    return <Prayer key={index} prayer={prayer} nextName={nextName}/>
                 })}
             </div>
         )
