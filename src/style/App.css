@@ -249,3 +249,7 @@ h3 {
   .wifiOn {
     height: 25px;
 }
+
+.right {
+    text-align: right;
+}

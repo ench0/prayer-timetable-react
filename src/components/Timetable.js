@@ -37,7 +37,8 @@ class Timetable extends Component {
             timetable: [],
             tomorrow: 0,
             dst: 0,
-            prayers: this.props.prayers
+            prayers: this.props.prayers,
+            jamaahShow: this.props.jamaahShow
         }
 
     }
@@ -61,6 +62,9 @@ class Timetable extends Component {
         if (nextProps.prayers !== this.state.prayers) {
           this.setState({ prayers: nextProps.prayers });
         }
+        if (nextProps.jamaahShow !== this.state.jamaahShow) {
+            this.setState({ jamaahShow: nextProps.jamaahShow });
+          }
         // console.log(nextProps)
     }
 
@@ -72,7 +76,7 @@ class Timetable extends Component {
         return (
             <div>
                 {list.map((prayer, index) => {
-                    return <Prayer key={index} prayer={prayer} nextName={nextName}/>
+                    return <Prayer key={index} prayer={prayer} nextName={nextName} jamaahShow={this.state.jamaahShow} />
                 })}
             </div>
         )
@@ -80,10 +84,24 @@ class Timetable extends Component {
 
 
     render() {
+        var adhan, iqamah
+        if(this.state.jamaahShow) {
+            adhan = <div className='adhanTime'>Adhan</div>
+            iqamah = <div className='iqamahTime'>Iqamah</div>
+        }
+        else {
+            adhan = <div className='adhanTime right'>Adhan</div>
+            iqamah = ''
+        }
+
+
         return (
             <div className='Timetable'>
                 <div className='prayerHeader'>
-                    <div>Prayer</div><div className='adhanTime'>Adhan</div><div className='iqamahTime'>Iqamah</div>
+                    <div>Prayer</div>
+                    {adhan}
+                    {iqamah}
+                    
                 </div>
                     {this.renderPrayers()}
                     {/* {console.log(this.state.prayers)} */}

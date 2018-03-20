@@ -89,6 +89,7 @@ class App extends Component {
 
         const listToday = [];
         const listTomorrow = [];
+        
         prayerNames.forEach((prayer, index) => listToday.push(
             {
                 name: prayer,
@@ -240,6 +241,7 @@ class App extends Component {
             prayers: this.Prayers(this.state.tomorrow),
             day: this.Day(this.state.tomorrow),
             settings: defsettings,
+            timetable: deftimetable
             // jamaahShow: 1
         })
     }
@@ -250,24 +252,19 @@ class App extends Component {
             // var settings, timetable
 
             if (await localStorage.getItem('settings') !== 'undefined') {
-                // settings = JSON.parse(await localStorage.getItem('settings'))
-                var newsettings = await localStorage.getItem('settings')             
+                var newsettings = await JSON.parse(localStorage.getItem('settings'))            
                 }
-                if (await localStorage.getItem('timetable') !== 'undefined') {
-                // timetable = JSON.parse(await localStorage.getItem('timetable'))
-                var newtimetable = await localStorage.getItem('timetable')
+            if (await localStorage.getItem('timetable') !== 'undefined') {
+                var newtimetable = await JSON.parse(localStorage.getItem('timetable'))
                 }
 
+            // console.log(JSON.parse(localStorage.getItem('timetable')))
             await this.setState({settings: newsettings, timetable: newtimetable})  
         } catch (error) {
             console.log(error)
         }
 
         await this.update()
-
-        // console.log(this.state.settings)
-
-
 
         this.timerID = setInterval(
             () => this.tick(),
@@ -311,8 +308,8 @@ class App extends Component {
             // console.log(settings)
             // update states and storage
             await this.setState({settings,timetable})
-            await localStorage.setItem('settings', settings);
-            await localStorage.setItem('timetable', timetable);
+            await localStorage.setItem('settings', JSON.stringify(settings));
+            await localStorage.setItem('timetable', JSON.stringify(timetable));
             // console.log('timetable', timetable)
         } catch (error) {
             console.log(error)
@@ -331,7 +328,7 @@ class App extends Component {
             <Header settings={this.state.settings} />
             <Clock day={this.state.day} />
             <Timetable
-                prayers={this.state.prayers}
+                prayers={this.state.prayers} jamaahShow={this.state.jamaahShow}
             />
             <Countdown 
                 prayers={this.state.prayers}
