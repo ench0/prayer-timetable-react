@@ -108,37 +108,43 @@ class App extends Component {
         prayerNames.forEach((prayer, index) => listToday.push(
             {
                 name: prayer,
-                time: moment({
-                    hour: this.state.timetable[month][date][index][0],
-                    minute: this.state.timetable[month][date][index][1]
-                }).add(dst, 'hour'),
+                time: moment(
+                    this.state.timetable[tmonth][tdate][index][0]+'-'+
+                    this.state.timetable[tmonth][tdate][index][1], 'M-D'
+                ).add(dst, 'hour'),
                 jamaah: {
                     offset: this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})),
-                    time: moment({
-                        hour: this.state.timetable[month][date][index][0],
-                        minute: this.state.timetable[month][date][index][1]
-                    }).add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
+                    time: moment(
+                        this.state.timetable[tmonth][tdate][index][0]+'-'+
+                        this.state.timetable[tmonth][tdate][index][1], 'M-D'
+                    ).add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
                 }
             }
         ));
         prayerNames.forEach((prayer, index) => listTomorrow.push(
             {
                 name: prayer,
-                time: moment({
-                    hour: this.state.timetable[tmonth][tdate][index][0],
-                    minute: this.state.timetable[tmonth][tdate][index][1]
-                }).add(1, 'day').add(dst, 'hour'),
+                time: moment(
+                    this.state.timetable[tmonth][tdate][index][0]+'-'+
+                    this.state.timetable[tmonth][tdate][index][1], 'M-D'
+                ).add(1, 'day').add(dst, 'hour'),
                 jamaah: {
                     offset: this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})),
-                    time: moment({
-                        hour: this.state.timetable[tmonth][tdate][index][0],
-                        minute: this.state.timetable[tmonth][tdate][index][1]
-                    }).add(1, 'day').add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
-                }
+                    // time: moment({
+                    //     hour: this.state.timetable[tmonth][tdate][index][0],
+                    //     minute: this.state.timetable[tmonth][tdate][index][1]
+                    // }).add(1, 'day').add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
+                    time: moment(
+                        this.state.timetable[tmonth][tdate][index][0]+'-'+
+                        this.state.timetable[tmonth][tdate][index][1], 'M-D'
+                    ).add(1, 'day').add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
+                },
+                koko1: this.state.timetable[tmonth][tdate][index][0],
+                koko2: this.state.timetable[tmonth][tdate][index][1]
             }
         ));        
 
-        // console.log(listToday)
+        // console.log(listTomorrow)
 
 
         if (moment().isBetween(moment().startOf('day'), listToday[0].time)) {
@@ -223,7 +229,9 @@ class App extends Component {
             list = listTomorrow
             next = {name: listTomorrow[0].name, time: listTomorrow[0].time}
             // next = {name: 'midnight', time: moment().endOf('day')}
+            // console.log('case 8', listToday[5].time.isValid())
             console.log('case 8')
+            
         }
   
 
@@ -343,6 +351,7 @@ class App extends Component {
 
             <Overlay settings={this.state.settings} day={this.state.day} title={this.state.overlayTitle} overlayActive={this.state.overlayActive} />
             <Header settings={this.state.settings} />
+            {/* {console.log(this.state.settings)} */}
             <Clock day={this.state.day} />
             <Timetable
                 prayers={this.state.prayers} jamaahShow={this.state.jamaahShow}
