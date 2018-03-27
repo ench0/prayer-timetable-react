@@ -108,43 +108,43 @@ class App extends Component {
         prayerNames.forEach((prayer, index) => listToday.push(
             {
                 name: prayer,
-                time: moment(
-                    this.state.timetable[tmonth][tdate][index][0]+'-'+
-                    this.state.timetable[tmonth][tdate][index][1], 'M-D'
-                ).add(dst, 'hour'),
+                time: moment({
+                    hour: this.state.timetable[tmonth][tdate][index][0],
+                    minute: this.state.timetable[tmonth][tdate][index][1]
+                }).add(dst, 'hour'),
                 jamaah: {
                     offset: this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})),
-                    time: moment(
-                        this.state.timetable[tmonth][tdate][index][0]+'-'+
-                        this.state.timetable[tmonth][tdate][index][1], 'M-D'
-                    ).add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
+                    time: moment({
+                        hour: this.state.timetable[tmonth][tdate][index][0],
+                        minute: this.state.timetable[tmonth][tdate][index][1]
+                    }).add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
                 }
             }
         ));
         prayerNames.forEach((prayer, index) => listTomorrow.push(
             {
                 name: prayer,
-                time: moment(
-                    this.state.timetable[tmonth][tdate][index][0]+'-'+
-                    this.state.timetable[tmonth][tdate][index][1], 'M-D'
-                ).add(1, 'day').add(dst, 'hour'),
+                time: moment({
+                    hour: this.state.timetable[tmonth][tdate][index][0],
+                    minute: this.state.timetable[tmonth][tdate][index][1]
+                }).add(1, 'day').add(dst, 'hour'),
                 jamaah: {
                     offset: this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})),
-                    // time: moment({
-                    //     hour: this.state.timetable[tmonth][tdate][index][0],
-                    //     minute: this.state.timetable[tmonth][tdate][index][1]
-                    // }).add(1, 'day').add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
-                    time: moment(
-                        this.state.timetable[tmonth][tdate][index][0]+'-'+
-                        this.state.timetable[tmonth][tdate][index][1], 'M-D'
-                    ).add(1, 'day').add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
+                    time: moment({
+                        hour: this.state.timetable[tmonth][tdate][index][0],
+                        minute: this.state.timetable[tmonth][tdate][index][1]
+                    }).add(1, 'day').add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
+                    // time: moment(
+                    //     this.state.timetable[tmonth][tdate][index][0]+'-'+
+                    //     this.state.timetable[tmonth][tdate][index][1], 'H-m'
+                    // ).add(1, 'day').add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
                 },
-                koko1: this.state.timetable[tmonth][tdate][index][0],
-                koko2: this.state.timetable[tmonth][tdate][index][1]
+                koko0: this.state.timetable[tmonth][tdate][index][0],
+                koko1: this.state.timetable[tmonth][tdate][index][1]
             }
         ));        
 
-        // console.log(listTomorrow)
+        console.log(listTomorrow[2].koko0,listTomorrow[1].koko1)
 
 
         if (moment().isBetween(moment().startOf('day'), listToday[0].time)) {
