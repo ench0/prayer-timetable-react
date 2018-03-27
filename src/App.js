@@ -12,6 +12,10 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 import moment from 'moment-hijri'
+import momenttz from 'moment-timezone'
+
+// moment.tz = require('moment-timezone');
+
 import defsettings from './settings.json'
 
 import deftimetable from './cities/dublin.json'
@@ -76,7 +80,18 @@ class App extends Component {
     
     Prayers(tomorrow) {
         // console.log(this.state.timetable)
-        var dst = this.state.dst
+        // DST settings
+        var city = "Europe/Dublin"
+        var dst
+        var dstcheck = momenttz(moment().add(tomorrow, "day"), city).isDST()
+
+        if (!dstcheck && moment().format("M") === "10") dst = -1;
+        else if (dstcheck && moment().format("M") === "3") dst = 1;
+        else dst = 0
+
+        // if (moment().isDST()) dst = 1; else dst = 0;
+        // console.log(dst)
+        // var dst = this.state.dst
         var current, next, list
 
         var month = (moment().add(dst, 'hour').month()) + 1
@@ -96,13 +111,13 @@ class App extends Component {
                 time: moment({
                     hour: this.state.timetable[month][date][index][0],
                     minute: this.state.timetable[month][date][index][1]
-                }),
+                }).add(dst, 'hour'),
                 jamaah: {
                     offset: this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})),
                     time: moment({
                         hour: this.state.timetable[month][date][index][0],
                         minute: this.state.timetable[month][date][index][1]
-                    }).add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
+                    }).add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
                 }
             }
         ));
@@ -112,13 +127,13 @@ class App extends Component {
                 time: moment({
                     hour: this.state.timetable[tmonth][tdate][index][0],
                     minute: this.state.timetable[tmonth][tdate][index][1]
-                }).add(1, 'day'),
+                }).add(1, 'day').add(dst, 'hour'),
                 jamaah: {
                     offset: this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})),
                     time: moment({
                         hour: this.state.timetable[tmonth][tdate][index][0],
                         minute: this.state.timetable[tmonth][tdate][index][1]
-                    }).add(1, 'day').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
+                    }).add(1, 'day').add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
                 }
             }
         ));        
@@ -131,7 +146,7 @@ class App extends Component {
             current = {name: 'midnight', time: moment().startOf('day')}
             next = {name: listToday[0].name, time: listToday[0].time}
             list = listToday
-            // console.log('case 1')
+            console.log('case 1')
         }
         // fajr-shurooq
         else if (moment().isBetween(listToday[0].time, listToday[1].time)) {
@@ -143,7 +158,7 @@ class App extends Component {
             if(this.state.jamaahShow === 1 && moment().isBetween(listToday[0].time,  listToday[0].jamaah.time)) {
                 next = {name: listToday[0].name+' jamaah', time: listToday[0].jamaah.time}
             }
-            // console.log('case 2')
+            console.log('case 2')
         }
         // shurooq-dhuhr
         else if (moment().isBetween(listToday[1].time, listToday[2].time)) {
@@ -151,7 +166,7 @@ class App extends Component {
             current = {name: listToday[1].name, time: listToday[1].time}
             next = {name: listToday[2].name, time: listToday[2].time}
             list = listToday
-            // console.log('case 3')
+            console.log('case 3')
         }
         // dhuhr-asr
         else if (moment().isBetween(listToday[2].time, listToday[3].time)) {
@@ -163,7 +178,7 @@ class App extends Component {
             if(this.state.jamaahShow === 1 && moment().isBetween(listToday[2].time,  listToday[2].jamaah.time)) {
                 next = {name: listToday[2].name+' jamaah', time: listToday[2].jamaah.time}
             }
-            // console.log('case 4')
+            console.log('case 4')
         }
         // asr-maghrib
         else if (moment().isBetween(listToday[3].time, listToday[4].time)) {
@@ -175,10 +190,10 @@ class App extends Component {
             if(this.state.jamaahShow === 1 && moment().isBetween(listToday[3].time,  listToday[3].jamaah.time)) {
                 next = {name: listToday[3].name+' jamaah', time: listToday[3].jamaah.time}
             }
-            // console.log('case 5')
+            console.log('case 5')
         }
         // maghrib-isha
-        else if (moment().isBetween(listToday[4].time, listToday[5].time)
+        else if (moment().isBetween(listToday[4].time, listToday[5].time && tomorrow !== 1)
         ) {
             tomorrow = 0
             current = {name: listToday[4].name, time: listToday[4].time}
@@ -188,7 +203,7 @@ class App extends Component {
             if(this.state.jamaahShow === 1 && moment().isBetween(listToday[4].time,  listToday[4].jamaah.time)) {
                 next = {name: listToday[4].name+' jamaah', time: listToday[4].jamaah.time}
             }
-            // console.log('case 6')
+            console.log('case 6',dst)
         }
         // isha-midnight
         else if (moment().isBetween(listToday[5].time, moment().endOf('day'))) {
@@ -200,7 +215,7 @@ class App extends Component {
             if(this.state.jamaahShow === 1 && moment().isBetween(listToday[5].time,  listToday[5].jamaah.time)) {
                 next = {name: listToday[5].name+' jamaah', time: listToday[5].jamaah.time}
             }
-            // console.log('case 7')
+            console.log('case 7',dst)
         }
         else {
             tomorrow = 1
@@ -208,9 +223,11 @@ class App extends Component {
             list = listTomorrow
             next = {name: listTomorrow[0].name, time: listTomorrow[0].time}
             // next = {name: 'midnight', time: moment().endOf('day')}
+            console.log('case 8')
         }
   
-        this.setState({tomorrow})
+
+        this.setState({tomorrow,dst})
 
         // console.log(
         //     'now:', moment().format("DD/MM - H:mm"),
@@ -293,7 +310,7 @@ class App extends Component {
             // console.log('ok')
         }
         // console.log(moment().isBetween(this.state.jummuahTime, this.state.jummuahTime.clone().add(7, 'hour')))
-        console.log(this.state.jummuahTime.format('dddd D/M H:m'))
+        // console.log(this.state.jummuahTime.format('dddd D/M H:m'))
 
         // localStorage.setItem('settings', 'koko')
     
