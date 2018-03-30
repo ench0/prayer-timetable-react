@@ -53,13 +53,14 @@ class Prayer extends Component {
         // console.log(this.props.nextName, this.props.prayer.name)
         var next, adhan, iqamah
         if(this.props.nextName === this.props.prayer.name || this.props.nextName === this.props.prayer.name+' jamaah') next = 'prayerRow next'; else next = 'prayerRow'
-        if(this.state.jamaahShow) {
+
+        if(this.state.jamaahShow && this.props.prayer.name !== 'shurooq') {
             adhan =
                 <div className='adhanTime'>
                     {this.props.prayer.time.format('H:mm')}
                 </div>
             iqamah =
-                <div className='iqamahTime'>
+                <div className='iqamahTime'>0
                     {this.props.prayer.jamaah.time.format('H:mm')}
                 </div>
         }
@@ -69,7 +70,7 @@ class Prayer extends Component {
                 <div className='adhanTime right'>
                     {this.props.prayer.time.format('H:mm')}
                 </div>
-            iqamah = ''
+            iqamah = '--'
         }
 
 

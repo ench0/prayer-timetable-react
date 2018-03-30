@@ -156,14 +156,16 @@ class App extends Component {
         }
         // fajr-shurooq
         else if (moment().isBetween(listToday[0].time, listToday[1].time)) {
-            tomorrow = 0
-            current = {name: listToday[0].name, time: listToday[0].time}
-            next = {name: listToday[1].name, time: listToday[1].time}
-            list = listToday
             // jamaah
             if(this.state.jamaahShow === 1 && moment().isBetween(listToday[0].time,  listToday[0].jamaah.time)) {
                 next = {name: listToday[0].name+' jamaah', time: listToday[0].jamaah.time}
             }
+            else {
+                next = {name: listToday[1].name, time: listToday[1].time}
+            }
+            tomorrow = 0
+            current = {name: listToday[0].name, time: listToday[0].time}
+            list = listToday
             timePeriod = 'case 2'
         }
         // shurooq-dhuhr
@@ -176,52 +178,66 @@ class App extends Component {
         }
         // dhuhr-asr
         else if (moment().isBetween(listToday[2].time, listToday[3].time)) {
-            tomorrow = 0
-            current = {name: listToday[2].name, time: listToday[2].time}
-            next = {name: listToday[3].name, time: listToday[3].time}
-            list = listToday
             // jamaah
             if(this.state.jamaahShow === 1 && moment().isBetween(listToday[2].time,  listToday[2].jamaah.time)) {
                 next = {name: listToday[2].name+' jamaah', time: listToday[2].jamaah.time}
             }
+            else {
+                next = {name: listToday[3].name, time: listToday[3].time}
+            }
+            tomorrow = 0
+            current = {name: listToday[2].name, time: listToday[2].time}
+            list = listToday
+
             timePeriod = 'case 4'
         }
         // asr-maghrib
         else if (moment().isBetween(listToday[3].time, listToday[4].time)) {
-            tomorrow = 0
-            current = {name: listToday[3].name, time: listToday[3].time}
-            next = {name: listToday[4].name, time: listToday[4].time}
-            list = listToday
             // jamaah
             if(this.state.jamaahShow === 1 && moment().isBetween(listToday[3].time,  listToday[3].jamaah.time)) {
                 next = {name: listToday[3].name+' jamaah', time: listToday[3].jamaah.time}
             }
+            else {
+                next = {name: listToday[4].name, time: listToday[4].time}
+            }
+            tomorrow = 0
+            current = {name: listToday[3].name, time: listToday[3].time}
+            list = listToday
             timePeriod = 'case 5'
         }
         // maghrib-isha
         else if (moment().isBetween(listToday[4].time, listToday[5].time)
         ) {
-            tomorrow = 0
-            current = {name: listToday[4].name, time: listToday[4].time}
-            next = {name: listToday[5].name, time: listToday[5].time}
-            list = listToday
             // jamaah
             if(this.state.jamaahShow === 1 && moment().isBetween(listToday[4].time,  listToday[4].jamaah.time)) {
                 next = {name: listToday[4].name+' jamaah', time: listToday[4].jamaah.time}
             }
+            else {
+                next = {name: listToday[5].name, time: listToday[5].time}
+            }
+            tomorrow = 0
+            current = {name: listToday[4].name, time: listToday[4].time}
+            list = listToday
             timePeriod = 'case 6'
         }
         // isha-midnight
         else if (moment().isBetween(listToday[5].time, moment().endOf('day'))) {
-            tomorrow = 1
-            current = {name: listToday[5].name, time: listToday[5].time}
-            next = {name: listTomorrow[0].name, time: listTomorrow[0].time}
-            list = listTomorrow
             // jamaah
             if(this.state.jamaahShow === 1 && moment().isBetween(listToday[5].time,  listToday[5].jamaah.time)) {
                 next = {name: listToday[5].name+' jamaah', time: listToday[5].jamaah.time}
+                tomorrow = 0
+                list = listToday
+                timePeriod = 'case 7a'
             }
-            timePeriod = 'case 7'
+            else {
+                tomorrow = 1
+                list = listTomorrow
+                next = {name: listTomorrow[0].name, time: listTomorrow[0].time}
+                timePeriod = 'case 7b'
+            }
+
+            current = {name: listToday[5].name, time: listToday[5].time}
+
         }
         else {
             tomorrow = 1
@@ -231,7 +247,6 @@ class App extends Component {
             // next = {name: 'midnight', time: moment().endOf('day')}
             // console.log('case 8', listToday[5].time.isValid())
             timePeriod = 'case 8'
-            
         }
   
         console.log (timePeriod,'| current:',current.name,'| next:',next.name, '| tomorrow:',tomorrow)
