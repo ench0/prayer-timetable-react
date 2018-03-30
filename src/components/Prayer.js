@@ -60,17 +60,25 @@ class Prayer extends Component {
                     {this.props.prayer.time.format('H:mm')}
                 </div>
             iqamah =
-                <div className='iqamahTime'>0
+                <div className='iqamahTime'>
                     {this.props.prayer.jamaah.time.format('H:mm')}
                 </div>
         }
-        
+        else if(this.state.jamaahShow && this.props.prayer.name === 'shurooq') {
+            adhan =
+                <div className='adhanTime'>
+                    {this.props.prayer.time.format('H:mm')}
+                </div>
+            iqamah =
+                <div className='iqamahTime'>
+                </div>
+        }
         else {
             adhan =
                 <div className='adhanTime right'>
                     {this.props.prayer.time.format('H:mm')}
                 </div>
-            iqamah = '--'
+            iqamah = ''
         }
 
 
