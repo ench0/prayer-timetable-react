@@ -1,6 +1,7 @@
 {
   "name": "prayer-timetable-react",
   "version": "0.1.0",
+  "homepage" : "https://islamireland.ie/t/",
   "private": true,
   "dependencies": {
     "moment": "^2.21.0",
