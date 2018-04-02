@@ -23,7 +23,7 @@ import deftimetable from './cities/dublin.json'
 
 // var settings = defsettings
 // var timetable = deftimetable
-
+// var tomorrow
 
 class App extends Component {
 
@@ -42,7 +42,7 @@ class App extends Component {
             jamaahShow: 1,
             overlayTitle: 'Welcome',
             jummuahTime: moment({ hour: '13', minute: '10' }).day(5),
-            overlayActive: null
+            overlayActive: false
         }
 
     }
@@ -94,8 +94,11 @@ class App extends Component {
         // var dst = this.state.dst
         var current, next, list
 
-        var month = moment().add(tomorrow, 'days').add(dst, 'hour').month() + 1
-        var date = moment().add(tomorrow, 'days').add(dst, 'hour').date()
+        var month = moment().add(dst, 'hour').month() + 1
+        var date = moment().add(dst, 'hour').date()
+
+        var tmonth = moment().add(1, 'days').add(dst, 'hour').month() + 1
+        var tdate = moment().add(1, 'days').add(dst, 'hour').date()
         // console.log(month,date)
 
         const prayerNames = ['fajr','shurooq', 'dhuhr', 'asr',  'maghrib', 'isha']
@@ -123,22 +126,20 @@ class App extends Component {
             {
                 name: prayer,
                 time: moment({
-                    hour: this.state.timetable[month][date][index][0],
-                    minute: this.state.timetable[month][date][index][1]
+                    hour: this.state.timetable[tmonth][tdate][index][0],
+                    minute: this.state.timetable[tmonth][tdate][index][1]
                 }).add(1, 'day').add(dst, 'hour'),
                 jamaah: {
-                    offset: this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})),
+                    offset: this.jamaahCalc(index, moment({hour: this.state.timetable[tmonth][tdate][index][0],minute: this.state.timetable[tmonth][tdate][index][1]})),
                     time: moment({
-                        hour: this.state.timetable[month][date][index][0],
-                        minute: this.state.timetable[month][date][index][1]
-                    }).add(1, 'day').add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
+                        hour: this.state.timetable[tmonth][tdate][index][0],
+                        minute: this.state.timetable[tmonth][tdate][index][1]
+                    }).add(1, 'day').add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[tmonth][tdate][index][0],minute: this.state.timetable[tmonth][tdate][index][1]})), 'minutes')
                     // time: moment(
                     //     this.state.timetable[tmonth][tdate][index][0]+'-'+
                     //     this.state.timetable[tmonth][tdate][index][1], 'H-m'
                     // ).add(1, 'day').add(dst, 'hour').add(this.jamaahCalc(index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
-                },
-                koko0: this.state.timetable[month][date][index][0],
-                koko1: this.state.timetable[month][date][index][1]
+                }
             }
         ));        
 
@@ -249,7 +250,9 @@ class App extends Component {
             timePeriod = 'case 8'
         }
   
-        console.log (timePeriod,'| current:',current.name,'| next:',next.name, '| tomorrow:',tomorrow)
+        console.log (moment().format('M/D H'),timePeriod,'| current:',current.name,'| next:',next.name, '| tomorrow:',tomorrow)
+        // console.log ('!',timePeriod, listToday[5].time.format('MM/DD - H:mm'))
+        // console.log(tomorrow)
 
         this.setState({tomorrow,dst})
 
@@ -278,16 +281,22 @@ class App extends Component {
 
     async componentWillMount()
     {
-        this.setState({
-            prayers: this.Prayers(this.state.tomorrow),
-            day: this.Day(this.state.tomorrow),
-            settings: defsettings,
-            timetable: deftimetable
-            // jamaahShow: 1
-        })
+        // console.log('1',this.state.tomorrow)
+        await this.Prayers()
+        // console.log('2',this.state.tomorrow)
+
+        // this.setState({
+        //     prayers: this.Prayers(this.state.tomorrow),
+        //     day: this.Day(this.state.tomorrow),
+        //     settings: defsettings,
+        //     timetable: deftimetable,
+        //     overlayActive: false
+        //     // jamaahShow: 1
+        // })
     }
 
     async componentDidMount() {
+        // console.log('3',this.state.tomorrow)
 
         try {
             // var settings, timetable
