@@ -37,12 +37,17 @@ class Message extends Component {
                     {this.state.settings.announcement}
                     {/* {this.state.height} */}
                 </h3>
-                {/* <div>{this.state.settings.body}</div> */}
-                {/* <marquee behavior="scroll" direction="up" className="marquee" scrolldelay="300">{this.state.settings.body}</marquee> */}
 
-                <div className="mContainer">
-                    <p className="marquee">{this.state.settings.body}</p>
+                <div>
+                    {this.state.settings.text.en}
                 </div>
+                <div>
+                    {this.state.settings.text.ar}
+                </div>
+
+                {/* <div className="mContainer">
+                    <p className="marquee">{this.state.settings.body}</p>
+                </div> */}
 
             </div>
         );

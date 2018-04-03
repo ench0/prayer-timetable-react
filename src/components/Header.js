@@ -28,7 +28,7 @@ class Header extends Component {
         return (
             <div className="Header">
                 <div></div>
-                <div>{this.state.settings.title}</div>
+                <div className="center">{this.state.settings.title}</div>
                 <div></div>
             </div>
         );

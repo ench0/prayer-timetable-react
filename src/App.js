@@ -33,12 +33,13 @@ class App extends Component {
 
         this.state = {
             timetable: deftimetable,
+            settings: defsettings,
             dst: 0,
             date: new Date(),
             day: '',
             prayers: {next: {time: moment(), name: ''}, current: '', list: []},
             tomorrow: 0,
-            settings: defsettings,
+            name: '',
             jamaahShow: 1,
             overlayTitle: 'Welcome',
             jummuahTime: moment({ hour: '13', minute: '10' }).day(5),
@@ -49,10 +50,12 @@ class App extends Component {
 
     /* JAMAAH CALC */
     jamaahCalc = function(num, time, timenext) {
-        // console.log ("jamaahcalc",this)
+        // console.log (this.state)
 
-        var jamaahMethodSetting = (this.state.settings.jamaahmethods).split(',')[num]
-        var jamaahOffsetSetting = ((this.state.settings.jamaahoffsets).split(',')[num]).split(':')
+        // var jamaahMethodSetting = (this.state.settings.jamaahmethods).split(',')[num]
+        // var jamaahOffsetSetting = ((this.state.settings.jamaahoffsets).split(',')[num]).split(':')
+        var jamaahMethodSetting = this.state.settings.jamaahmethods[num]
+        var jamaahOffsetSetting = this.state.settings.jamaahoffsets[num]
 
         var jamaahOffset
         switch (jamaahMethodSetting) {
@@ -250,9 +253,7 @@ class App extends Component {
             timePeriod = 'case 8'
         }
   
-        console.log (moment().format('M/D H'),timePeriod,'| current:',current.name,'| next:',next.name, '| tomorrow:',tomorrow)
-        // console.log ('!',timePeriod, listToday[5].time.format('MM/DD - H:mm'))
-        // console.log(tomorrow)
+        // console.log (moment().format('M/D H'),timePeriod,'| current:',current.name,'| next:',next.name, '| tomorrow:',tomorrow)
 
         this.setState({tomorrow,dst})
 
@@ -297,6 +298,7 @@ class App extends Component {
 
     async componentDidMount() {
         // console.log('3',this.state.tomorrow)
+        document.title = "ICCI Timetable"
 
         try {
             // var settings, timetable
@@ -352,9 +354,9 @@ class App extends Component {
 
     async update() {
         try {
-            const res = await fetch('https://timetable.islamireland.ie/api/', {mode: 'cors'})
+            const res = await fetch('https://islamireland.ie/api/timetable/', {mode: 'cors'})
             // set vars
-            var {settings,timetable} = await res.json()
+            var {name,settings,timetable} = await res.json()
             // console.log(settings)
             // update states and storage
             await this.setState({settings,timetable})

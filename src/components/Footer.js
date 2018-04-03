@@ -31,8 +31,8 @@ class Footer extends Component {
         return (
             <div className="Footer">
                 {/* {console.log(settings)} */}
-                <div>{this.state.settings.jummuahlabel} {this.state.settings.jummuahtime}</div>
-                <div>
+                <div className="left">{this.state.settings.jummuahlabel} {this.state.settings.jummuahtime}</div>
+                <div className="center">
                     <Offline>
                         <img  src={wifiOff} className="wifiOff" alt="wifiOff"/>
                     </Offline>
@@ -40,7 +40,8 @@ class Footer extends Component {
                         <img  src={wifiOn} className="wifiOn" alt="wifiOn"/>
                     </Online>
                 </div>
-                <div>Updated {moment(this.state.settings.update).format('DD/MM/YY')}</div>
+                <div className="right">
+                    Updated {moment(this.state.settings.updated*1000).format('DD/MM/YY')}</div>
             </div>
         );
     }
