@@ -149,14 +149,14 @@ class App extends Component {
         // console.log(listTomorrow[2].koko0,listTomorrow[1].koko1)
 
 
-        var timePeriod
+        // var timePeriod
 
         if (moment().isBetween(moment().startOf('day'), listToday[0].time)) {
             tomorrow = 0
             current = {name: 'midnight', time: moment().startOf('day')}
             next = {name: listToday[0].name, time: listToday[0].time}
             list = listToday
-            timePeriod = 'case 1'
+            // timePeriod = 'case 1'
         }
         // fajr-shurooq
         else if (moment().isBetween(listToday[0].time, listToday[1].time)) {
@@ -170,7 +170,7 @@ class App extends Component {
             tomorrow = 0
             current = {name: listToday[0].name, time: listToday[0].time}
             list = listToday
-            timePeriod = 'case 2'
+            // timePeriod = 'case 2'
         }
         // shurooq-dhuhr
         else if (moment().isBetween(listToday[1].time, listToday[2].time)) {
@@ -178,7 +178,7 @@ class App extends Component {
             current = {name: listToday[1].name, time: listToday[1].time}
             next = {name: listToday[2].name, time: listToday[2].time}
             list = listToday
-            timePeriod = 'case 3'
+            // timePeriod = 'case 3'
         }
         // dhuhr-asr
         else if (moment().isBetween(listToday[2].time, listToday[3].time)) {
@@ -193,7 +193,7 @@ class App extends Component {
             current = {name: listToday[2].name, time: listToday[2].time}
             list = listToday
 
-            timePeriod = 'case 4'
+            // timePeriod = 'case 4'
         }
         // asr-maghrib
         else if (moment().isBetween(listToday[3].time, listToday[4].time)) {
@@ -207,7 +207,7 @@ class App extends Component {
             tomorrow = 0
             current = {name: listToday[3].name, time: listToday[3].time}
             list = listToday
-            timePeriod = 'case 5'
+            // timePeriod = 'case 5'
         }
         // maghrib-isha
         else if (moment().isBetween(listToday[4].time, listToday[5].time)
@@ -222,7 +222,7 @@ class App extends Component {
             tomorrow = 0
             current = {name: listToday[4].name, time: listToday[4].time}
             list = listToday
-            timePeriod = 'case 6'
+            // timePeriod = 'case 6'
         }
         // isha-midnight
         else if (moment().isBetween(listToday[5].time, moment().endOf('day'))) {
@@ -231,13 +231,13 @@ class App extends Component {
                 next = {name: listToday[5].name+' jamaah', time: listToday[5].jamaah.time}
                 tomorrow = 0
                 list = listToday
-                timePeriod = 'case 7a'
+                // timePeriod = 'case 7a'
             }
             else {
                 tomorrow = 1
                 list = listTomorrow
                 next = {name: listTomorrow[0].name, time: listTomorrow[0].time}
-                timePeriod = 'case 7b'
+                // timePeriod = 'case 7b'
             }
 
             current = {name: listToday[5].name, time: listToday[5].time}
@@ -250,7 +250,7 @@ class App extends Component {
             next = {name: listTomorrow[0].name, time: listTomorrow[0].time}
             // next = {name: 'midnight', time: moment().endOf('day')}
             // console.log('case 8', listToday[5].time.isValid())
-            timePeriod = 'case 8'
+            // timePeriod = 'case 8'
         }
   
         // console.log (moment().format('M/D H'),timePeriod,'| current:',current.name,'| next:',next.name, '| tomorrow:',tomorrow)
@@ -359,7 +359,7 @@ class App extends Component {
             var {name,settings,timetable} = await res.json()
             // console.log(settings)
             // update states and storage
-            await this.setState({settings,timetable})
+            await this.setState({settings,timetable,name})
             await localStorage.setItem('settings', JSON.stringify(settings));
             await localStorage.setItem('timetable', JSON.stringify(timetable));
             // console.log('timetable', timetable)
