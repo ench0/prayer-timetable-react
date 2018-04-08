@@ -34,14 +34,15 @@ This app should be used in conjuction with your own API from the website etc. Fo
 * Next day starts after isha iqamah
 
 ## How can you help
-  The timetable app currently specifically targets my own mosque. If you like your city/language to be included, please contact me and send your own timetable. Use examples from other city to figure out the JSON format. You are responsible for accuracy of the data.
+  The timetable app currently specifically targets my own mosque. If you like your city/language to be included, please contact me and send your own timetable. Use example from other city to figure out the JSON format. You are responsible for accuracy of the data.
 
 ## Tools and libraries used
 * NodeJS
 * Moment JS, Moment Timezone, Moment Hijri
 * OpenSans fonts
 * Changa fonts
-* Freepik images for backgrounds (soon)
+* Freepik images for backgrounds
+* Offline check through react-detect-offline
 
 ## API example
     {
@@ -80,8 +81,8 @@ This app should be used in conjuction with your own API from the website etc. Fo
 
 * 'jummuahtime' - self explanatory, needs to be in 24-hour format.
 * 'join' - should maghrib and isha prayers be joined (in summer time for example).
-* 'jamaahmethods' - afterthis: iqamah time hours and minutes after the adhan; fixed: fixed time for iqamah; beforenext: iqamah is hours and minutes before next prayer's adhan.
-* 'jamaahoffsets' - define the timings in hours and minutes for the above corresponding methods.
+* 'jamaahmethods' - afterthis: iqamah time is that many hours and minutes after the adhan; fixed: fixed time for iqamah; beforenext: iqamah is that many hours and minutes before next prayer's adhan.
+* 'jamaahoffsets' - define the timings in hours and minutes for the corresponding methods above.
 * 'updated' - last time the API was updated, in unix time (seconds).
 * 'timetable' - first '1' means January, second '1' means first. What follows is an array of times - in '[6,43] - '6' is fajr hour, '43' is fajr minutes. Etc, etc.
 
