@@ -1,8 +1,9 @@
 {
   "name": "prayer-timetable-react",
   "version": "0.1.0",
-  "homepage" : "https://islamireland.ie/t/",
-  "private": true,
+  "license": "MIT",
+  "homepage": "http://ensar.me/",
+  "private": false,
   "dependencies": {
     "moment": "^2.21.0",
     "moment-hijri": "^2.0.1",
@@ -17,5 +18,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ench0/prayer-timetable-react.git"
+  },
+  "engines": {
+    "node": ">= 7"
   }
 }
