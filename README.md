@@ -45,6 +45,4 @@ The timetable app currently specifically targets my own mosque. If you like your
 
 ## Screenshots
 
-Frontend             |  Admin area
-:-------------------------:
-![Frontend](public/screenshots/screenshot1.png)
+![Frontend](public/app.png)
