@@ -43,7 +43,8 @@ class App extends Component {
             jamaahShow: 1,
             overlayTitle: 'Welcome',
             jummuahTime: moment({ hour: '13', minute: '10' }).day(5),
-            overlayActive: false
+            overlayActive: false,
+            refresh: this.props.refresh || 60
         }
 
     }
@@ -324,12 +325,14 @@ class App extends Component {
         )
         this.updateID = setInterval(
             () => this.update(),
-            3600*1000
+            this.state.refresh*60*1000
+            
         )
     }
 
     componentWillUnmount() {
         clearInterval(this.timerID)
+        clearInterval(this.updateID)
     }
 
     tick() {
@@ -353,18 +356,21 @@ class App extends Component {
     }
 
     async update() {
-        try {
-            const res = await fetch('https://islamireland.ie/api/timetable/', {mode: 'cors'})
-            // set vars
-            var {name,settings,timetable} = await res.json()
-            // console.log(settings)
-            // update states and storage
-            await this.setState({settings,timetable,name})
-            await localStorage.setItem('settings', JSON.stringify(settings));
-            await localStorage.setItem('timetable', JSON.stringify(timetable));
-            // console.log('timetable', timetable)
-        } catch (error) {
-            console.log(error)
+        if (this.state.refresh !== 0) {
+            try {
+                const res = await fetch('https://islamireland.ie/api/timetable/', {mode: 'cors'})
+                // set vars
+                var {name,settings,timetable} = await res.json()
+                // console.log(settings)
+                // update states and storage
+                await this.setState({settings,timetable,name})
+                await localStorage.setItem('settings', JSON.stringify(settings));
+                await localStorage.setItem('timetable', JSON.stringify(timetable));
+                // console.log('timetable', timetable)
+                console.log('refreshed')
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 

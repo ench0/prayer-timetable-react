@@ -11,7 +11,7 @@ class Message extends Component {
         super(props)
 
         this.state = {
-            settings: this.props.settings
+            settings: this.props.settings || {text: {en: "", ar: ""}, announcement: ""}
         }
     }
 
