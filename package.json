@@ -1,10 +1,11 @@
 {
   "name": "prayer-timetable-react",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "homepage": "http://ensar.me/",
   "keywords": ["prayer", "timetable", "muslim", "muslim prayer", "prayer timetable", "salat", "salah", "jamaat", "jamaah"],
   "private": false,
+  "main": "src/index.js",
   "dependencies": {
     "moment": "^2.21.0",
     "moment-hijri": "^2.0.1",
