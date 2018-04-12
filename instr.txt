@@ -14,3 +14,15 @@ pm2 start serve --name pt -- -s build (--port=<port> <path>)
 
 # static app
 yarn build
+
+
+
+
+
+
+
+
+
+yarn run eject
+
+yarn add -D babel-preset-es2017 babel-preset-stage-0 babel-preset-react babel-cli babel-core babel-polyfill babel-loader

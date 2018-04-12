@@ -50,7 +50,7 @@ class App extends Component {
     }
 
     /* JAMAAH CALC */
-    jamaahCalc (num, time, timenext) {
+    jamaahCalc = function(num, time, timenext) {
         // console.log (this.state)
 
         // var jamaahMethodSetting = (this.state.settings.jamaahmethods).split(',')[num]
