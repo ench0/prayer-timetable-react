@@ -1,37 +1,37 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 // import logo from './logo.svg';
 // import './App.css';
 // import moment from 'moment-hijri'
 // import settings from '../settings.json'
 
-
 class Message extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
     this.state = {
-      settings: this.props.settings || { text: { en: '', ar: '' }, announcement: '' },
-    };
-  }
-
-  componentDidMount() {
-    const height = this.divElement.clientHeight;
-    this.setState({ height });
-    // console.log(height)
-  }
-
-  componentWillUnmount() {
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.settings !== this.state.settings) {
-      this.setState({ settings: nextProps.settings });
+      settings: { text: { en: '', ar: '' }, announcement: '' }
     }
   }
 
-  render() {
+  componentDidMount () {
+    // const height = this.divElement.clientHeight;
+    // this.setState({ height });
+    // console.log(height)
+  }
+
+  componentWillUnmount () {
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.settings !== this.state.settings) {
+      this.setState({ settings: nextProps.settings })
+    }
+  }
+
+  render () {
     return (
-      <div className="Message" ref={divElement => this.divElement = divElement}>
+      <div className='Message' ref={divElement => this.divElement = divElement}>
         <h3>
           {this.state.settings.announcement}
           {/* {this.state.height} */}
@@ -49,8 +49,12 @@ class Message extends Component {
                 </div> */}
 
       </div>
-    );
+    )
   }
 }
 
-export default Message;
+Message.propTypes = {
+  settings: PropTypes.object
+}
+
+export default Message

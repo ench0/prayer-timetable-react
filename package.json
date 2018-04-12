@@ -10,6 +10,8 @@
     "test": "neutrino test"
   },
   "dependencies": {
+    "@neutrinojs/airbnb-base": "^8.2.2",
+    "@neutrinojs/standardjs": "^8.2.2",
     "moment": "^2.22.0",
     "moment-hijri": "^2.0.1",
     "moment-timezone": "^0.5.14",
