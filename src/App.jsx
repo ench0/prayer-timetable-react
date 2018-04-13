@@ -25,7 +25,7 @@ import deftimetable from './cities/dublin.json'
 // var timetable = deftimetable
 // var tomorrow
 
-class App extends Component {
+class TimetableApp extends Component {
   constructor (props) {
     super(props)
 
@@ -369,7 +369,7 @@ class App extends Component {
   render () {
     // console.log(this.state.settings)
     return (
-      <div className='App'>
+      <div className='TimetableApp'>
 
         <Overlay settings={this.state.settings} day={this.state.day} title={this.state.overlayTitle} overlayActive={this.state.overlayActive} />
         <Header settings={this.state.settings} />
@@ -390,4 +390,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default TimetableApp
