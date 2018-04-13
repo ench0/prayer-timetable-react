@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-// import settings from '../settings.json'
+import defsettings from '../settings.json'
 import moment from 'moment-hijri'
 import { Offline, Online } from 'react-detect-offline'
 import wifiOn from '../style/img/wifiOn.svg'
