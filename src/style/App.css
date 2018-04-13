@@ -196,6 +196,9 @@ h3 {
 .prayerRow div, .prayerHeader div {
     width: 33%;
 }
+.prayerName {
+    text-align: left;
+}
 .adhanTime {
     text-align: center;
 }

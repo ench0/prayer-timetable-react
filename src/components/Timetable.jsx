@@ -64,7 +64,7 @@ class Timetable extends Component {
     return (
       <div className='Timetable'>
         <div className='prayerHeader'>
-          <div>Prayer</div>
+          <div className='prayerName'>Prayer</div>
           {adhan}
           {iqamah}
 
