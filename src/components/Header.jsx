@@ -8,20 +8,14 @@ class Header extends Component {
     super(props)
 
     this.state = {
-      settings: defsettings
+      settings: { title: '' } || defsettings
     }
-  }
-
-  componentDidMount () {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.settings !== this.state.settings) {
+    if (nextProps.settings !== this.state.settings && nextProps.settings !== null) {
       this.setState({ settings: nextProps.settings })
     }
-  }
-
-  componentWillUnmount () {
   }
 
   render () {

@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import moment from 'moment-hijri'
 import momenttz from 'moment-timezone'
 
-// import logo from './logo.svg';
 import './style/normalize.css'
 import './style/App.css'
 
@@ -16,14 +15,8 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 
 // moment.tz = require('moment-timezone');
-
 import defsettings from './settings.json'
-
 import deftimetable from './cities/dublin.json'
-
-// var settings = defsettings
-// var timetable = deftimetable
-// var tomorrow
 
 class TimetableApp extends Component {
   constructor (props) {
@@ -42,16 +35,13 @@ class TimetableApp extends Component {
       overlayTitle: 'Welcome',
       jummuahTime: moment({ hour: '13', minute: '10' }).day(5),
       overlayActive: false,
-      refresh: this.props.refresh || 60
+      refresh: this.props.refresh || 60,
+      timePeriod: ''
     }
   }
 
   /* JAMAAH CALC */
   jamaahCalc (num, time, timenext) {
-    // console.log (this.state)
-
-    // var jamaahMethodSetting = (this.state.settings.jamaahmethods).split(',')[num]
-    // var jamaahOffsetSetting = ((this.state.settings.jamaahoffsets).split(',')[num]).split(':')
     const jamaahMethodSetting = this.state.settings.jamaahmethods[num]
     const jamaahOffsetSetting = this.state.settings.jamaahoffsets[num]
 
@@ -106,7 +96,6 @@ class TimetableApp extends Component {
 
     const tmonth = moment().add(1, 'days').add(dst, 'hour').month() + 1
     const tdate = moment().add(1, 'days').add(dst, 'hour').date()
-    // console.log(month,date)
 
     const prayerNames = ['fajr', 'shurooq', 'dhuhr', 'asr', 'maghrib', 'isha']
 
@@ -141,24 +130,17 @@ class TimetableApp extends Component {
           minute: this.state.timetable[tmonth][tdate][index][1]
         }).add(1, 'day').add(dst, 'hour')
           .add(this.jamaahCalc(index, moment({ hour: this.state.timetable[tmonth][tdate][index][0], minute: this.state.timetable[tmonth][tdate][index][1] })), 'minutes')
-        // time: moment(
-        //     this.state.timetable[tmonth][tdate][index][0]+'-'+
-        //     this.state.timetable[tmonth][tdate][index][1], 'H-m'
-        // ).add(1, 'day').add(dst, 'hour').add(this.jamaahCalc(
-        // index, moment({hour: this.state.timetable[month][date][index][0],minute: this.state.timetable[month][date][index][1]})), 'minutes')
       }
     }))
 
-    // console.log(listTomorrow[2].koko0,listTomorrow[1].koko1)
-
-    // var timePeriod
+    var timePeriod
 
     if (moment().isBetween(moment().startOf('day'), listToday[0].time)) {
       tomorrow = 0
       current = { name: 'midnight', time: moment().startOf('day') }
       next = { name: listToday[0].name, time: listToday[0].time }
       list = listToday
-      // timePeriod = 'case 1'
+      timePeriod = 'case 1'
     }
     // fajr-shurooq
     else if (moment().isBetween(listToday[0].time, listToday[1].time)) {
@@ -171,7 +153,7 @@ class TimetableApp extends Component {
       tomorrow = 0
       current = { name: listToday[0].name, time: listToday[0].time }
       list = listToday
-      // timePeriod = 'case 2'
+      timePeriod = 'case 2'
     }
     // shurooq-dhuhr
     else if (moment().isBetween(listToday[1].time, listToday[2].time)) {
@@ -179,7 +161,7 @@ class TimetableApp extends Component {
       current = { name: listToday[1].name, time: listToday[1].time }
       next = { name: listToday[2].name, time: listToday[2].time }
       list = listToday
-      // timePeriod = 'case 3'
+      timePeriod = 'case 3'
     }
     // dhuhr-asr
     else if (moment().isBetween(listToday[2].time, listToday[3].time)) {
@@ -192,8 +174,7 @@ class TimetableApp extends Component {
       tomorrow = 0
       current = { name: listToday[2].name, time: listToday[2].time }
       list = listToday
-
-      // timePeriod = 'case 4'
+      timePeriod = 'case 4'
     }
     // asr-maghrib
     else if (moment().isBetween(listToday[3].time, listToday[4].time)) {
@@ -206,7 +187,7 @@ class TimetableApp extends Component {
       tomorrow = 0
       current = { name: listToday[3].name, time: listToday[3].time }
       list = listToday
-      // timePeriod = 'case 5'
+      timePeriod = 'case 5'
     }
     // maghrib-isha
     else if (moment().isBetween(listToday[4].time, listToday[5].time)) {
@@ -219,7 +200,7 @@ class TimetableApp extends Component {
       tomorrow = 0
       current = { name: listToday[4].name, time: listToday[4].time }
       list = listToday
-      // timePeriod = 'case 6'
+      timePeriod = 'case 6'
     }
     // isha-midnight
     else if (moment().isBetween(listToday[5].time, moment().endOf('day'))) {
@@ -228,12 +209,12 @@ class TimetableApp extends Component {
         next = { name: `${listToday[5].name} jamaah`, time: listToday[5].jamaah.time }
         tomorrow = 0
         list = listToday
-        // timePeriod = 'case 7a'
+        timePeriod = 'case 7a'
       } else {
         tomorrow = 1
         list = listTomorrow
         next = { name: listTomorrow[0].name, time: listTomorrow[0].time }
-        // timePeriod = 'case 7b'
+        timePeriod = 'case 7b'
       }
 
       current = { name: listToday[5].name, time: listToday[5].time }
@@ -242,14 +223,12 @@ class TimetableApp extends Component {
       current = { name: listToday[5].name, time: listToday[5].time }// .clone().add(-1, 'day')}
       list = listTomorrow
       next = { name: listTomorrow[0].name, time: listTomorrow[0].time }
-      // next = {name: 'midnight', time: moment().endOf('day')}
-      // console.log('case 8', listToday[5].time.isValid())
-      // timePeriod = 'case 8'
+      timePeriod = 'case 8'
     }
 
-    // console.log (moment().format('M/D H'),timePeriod,'| current:',current.name,'| next:',next.name, '| tomorrow:',tomorrow)
+    console.log(moment().format('M/D H'), timePeriod, '| current:', current.name, '| next:', next.name, '| tomorrow:', tomorrow)
 
-    this.setState({ tomorrow, dst })
+    this.setState({ tomorrow, dst, timePeriod })
 
     // console.log(
     //     'now:', moment().format("DD/MM - H:mm"),
@@ -274,10 +253,8 @@ class TimetableApp extends Component {
     return { gregorian, hijri, tomorrow }
   }
 
-  componentWillMount () {
-    // console.log('1',this.state.tomorrow)
+  async componentWillMount () {
     this.prayersCalc()
-    // console.log('2',this.state.tomorrow)
 
     this.setState({
       prayers: this.prayersCalc(this.state.tomorrow),
@@ -290,20 +267,14 @@ class TimetableApp extends Component {
   }
 
   async componentDidMount () {
-    // console.log('3',this.state.tomorrow)
     document.title = 'ICCI Timetable'
-
     try {
-      // var settings, timetable
-
       if (await localStorage.getItem('settings') !== 'undefined') {
         var newsettings = await JSON.parse(localStorage.getItem('settings'))
       }
       if (await localStorage.getItem('timetable') !== 'undefined') {
         var newtimetable = await JSON.parse(localStorage.getItem('timetable'))
       }
-
-      // console.log(JSON.parse(localStorage.getItem('timetable')))
       await this.setState({ settings: newsettings, timetable: newtimetable })
     } catch (error) {
       console.log(error)
@@ -337,14 +308,7 @@ class TimetableApp extends Component {
       this.setState({
         overlayActive: true
       })
-      // console.log('ok')
     }
-    // console.log(moment().isBetween(this.state.jummuahTime, this.state.jummuahTime.clone().add(7, 'hour')))
-    // console.log(this.state.jummuahTime.format('dddd D/M H:m'))
-
-    // localStorage.setItem('settings', 'koko')
-
-    // console.log(localStorage.getItem('settings'))
   }
 
   async update () {
@@ -353,12 +317,10 @@ class TimetableApp extends Component {
         const res = await fetch('https://islamireland.ie/api/timetable/', { mode: 'cors' })
         // set vars
         const { name, settings, timetable } = await res.json()
-        // console.log(settings)
         // update states and storage
         await this.setState({ settings, timetable, name })
         await localStorage.setItem('settings', JSON.stringify(settings))
         await localStorage.setItem('timetable', JSON.stringify(timetable))
-        // console.log('timetable', timetable)
         console.log('refreshed')
       } catch (error) {
         console.log(error)
@@ -367,13 +329,11 @@ class TimetableApp extends Component {
   }
 
   render () {
-    // console.log(this.state.settings)
     return (
       <div className='TimetableApp'>
 
         <Overlay settings={this.state.settings} day={this.state.day} title={this.state.overlayTitle} overlayActive={this.state.overlayActive} />
         <Header settings={this.state.settings} />
-        {/* {console.log(this.state.settings)} */}
         <Clock day={this.state.day} />
         <Timetable
           prayers={this.state.prayers}

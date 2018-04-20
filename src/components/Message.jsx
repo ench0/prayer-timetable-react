@@ -1,30 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import logo from './logo.svg';
-// import './App.css';
-// import moment from 'moment-hijri'
-// import settings from '../settings.json'
+
+import defsettings from '../settings.json'
 
 class Message extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      settings: { text: { en: '', ar: '' }, announcement: '' }
+      settings: { text: { en: '', ar: '' }, announcement: '' } || defsettings
     }
   }
 
-  componentDidMount () {
-    // const height = this.divElement.clientHeight;
-    // this.setState({ height });
-    // console.log(height)
-  }
-
-  componentWillUnmount () {
-  }
-
   componentWillReceiveProps (nextProps) {
-    if (nextProps.settings !== this.state.settings) {
+    if (nextProps.settings !== this.state.settings && nextProps.settings !== null) {
       this.setState({ settings: nextProps.settings })
     }
   }
@@ -43,11 +32,6 @@ class Message extends Component {
         <div>
           {this.state.settings.text.ar}
         </div>
-
-        {/* <div className="mContainer">
-                    <p className="marquee">{this.state.settings.body}</p>
-                </div> */}
-
       </div>
     )
   }
