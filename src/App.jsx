@@ -40,6 +40,10 @@ class TimetableApp extends Component {
     }
   }
 
+  /**********************************************************************
+  CALCULATIONS
+  **********************************************************************/
+
   /* JAMAAH CALC */
   jamaahCalc (num, time, timenext) {
     const jamaahMethodSetting = this.state.settings.jamaahmethods[num]
@@ -248,6 +252,9 @@ class TimetableApp extends Component {
     return { gregorian, hijri, tomorrow }
   }
 
+  /**********************************************************************
+  STATES
+  **********************************************************************/
   async componentWillMount () {
     this.prayersCalc()
 
@@ -289,6 +296,9 @@ class TimetableApp extends Component {
     clearInterval(this.updateID)
   }
 
+  /**********************************************************************
+  SCRIPTS
+  **********************************************************************/
   tick () {
     this.setState({
       prayers: this.prayersCalc(this.state.tomorrow),
@@ -319,6 +329,9 @@ class TimetableApp extends Component {
     }
   }
 
+  /**********************************************************************
+  RENDERING
+  **********************************************************************/
   render () {
     return (
       <div className='TimetableApp'>

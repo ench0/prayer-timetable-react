@@ -31,9 +31,6 @@ class Timetable extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    // console.log(nextProps)
-
-    // You don't have to do this check first, but it can help prevent an unneeded render
     if (nextProps.prayers !== this.state.prayers) {
       this.setState({ prayers: nextProps.prayers })
     }
@@ -43,7 +40,6 @@ class Timetable extends Component {
     if (nextProps.join !== this.state.join) {
       this.setState({ join: nextProps.join })
     }
-    // console.log(nextProps)
   }
 
   renderPrayers () {

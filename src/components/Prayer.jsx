@@ -16,24 +16,13 @@ moment.locale('en-ie')
 class Prayer extends Component {
   constructor (props) {
     super(props)
-    // var tomorrow = 0
     this.state = {
-      // prayers: []
       jamaahShow: true,
       join: '0'
     }
   }
 
-  componentDidMount () {
-    // this.getTimes();
-  }
-
-  componentWillUnmount () {
-    // clearInterval(this.timerID)
-  }
-
   componentWillReceiveProps (nextProps) {
-    // console.log(nextProps)
     if (nextProps.jamaahShow !== this.state.jamaahShow) {
       this.setState({ jamaahShow: nextProps.jamaahShow })
     }
