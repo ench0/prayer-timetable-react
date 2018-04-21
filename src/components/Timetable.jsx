@@ -25,7 +25,8 @@ class Timetable extends Component {
       tomorrow: 0,
       dst: 0,
       prayers: { next: { time: moment(), name: '' }, current: { time: moment(), name: '' }, list: [] },
-      jamaahShow: true
+      jamaahShow: true,
+      join: '0'
     }
   }
 
@@ -39,13 +40,26 @@ class Timetable extends Component {
     if (nextProps.jamaahShow !== this.state.jamaahShow) {
       this.setState({ jamaahShow: nextProps.jamaahShow })
     }
+    if (nextProps.join !== this.state.join) {
+      this.setState({ join: nextProps.join })
+    }
     // console.log(nextProps)
   }
 
   renderPrayers () {
     return (
       <div>
-        { this.state.prayers.list.map((prayer, index) => <Prayer key={index} prayer={prayer} nextName={this.state.prayers.next.name} jamaahShow={this.state.jamaahShow} />)}
+        {
+          this.state.prayers.list.map((prayer, index) => (
+            <Prayer
+              key={index}
+              prayer={prayer}
+              nextName={this.state.prayers.next.name}
+              jamaahShow={this.state.jamaahShow}
+              join={this.state.join}
+            />)
+          )
+        }
       </div>
     )
   }

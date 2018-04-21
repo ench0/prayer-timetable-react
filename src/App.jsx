@@ -69,12 +69,10 @@ class TimetableApp extends Component {
       default:
         jamaahOffset = 0
     }
-    // console.log(jamaahOffset)
     return jamaahOffset
   }
 
   prayersCalc (tomorrow) {
-    // console.log(this.state.timetable)
     // DST settings
     const city = 'Europe/Dublin'
     let dst
@@ -84,9 +82,6 @@ class TimetableApp extends Component {
     else if (dstcheck && moment().format('M') === '3') dst = 1
     else dst = 0
 
-    // if (moment().isDST()) dst = 1; else dst = 0;
-    // console.log(dst)
-    // var dst = this.state.dst
     let current,
       next,
       list
@@ -205,7 +200,7 @@ class TimetableApp extends Component {
     // isha-midnight
     else if (moment().isBetween(listToday[5].time, moment().endOf('day'))) {
       // jamaah
-      if (this.state.jamaahShow === true && moment().isBetween(listToday[5].time, listToday[5].jamaah.time)) {
+      if (this.state.jamaahShow === true && this.state.settings.join !== '1' && moment().isBetween(listToday[5].time, listToday[5].jamaah.time)) {
         next = { name: `${listToday[5].name} jamaah`, time: listToday[5].jamaah.time }
         tomorrow = 0
         list = listToday
@@ -258,11 +253,7 @@ class TimetableApp extends Component {
 
     this.setState({
       prayers: this.prayersCalc(this.state.tomorrow),
-      day: this.dayCalc(this.state.tomorrow),
-      settings: defsettings,
-      timetable: deftimetable,
-      overlayActive: false,
-      jamaahShow: true
+      day: this.dayCalc(this.state.tomorrow)
     })
   }
 
@@ -337,7 +328,8 @@ class TimetableApp extends Component {
         <Clock day={this.state.day} />
         <Timetable
           prayers={this.state.prayers}
-          jamaahShow={this.state.jamaahShow || true}
+          jamaahShow={this.state.jamaahShow}
+          join={this.state.settings.join}
         />
         <Countdown
           prayers={this.state.prayers}

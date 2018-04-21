@@ -19,7 +19,8 @@ class Prayer extends Component {
     // var tomorrow = 0
     this.state = {
       // prayers: []
-      jamaahShow: true
+      jamaahShow: true,
+      join: '0'
     }
   }
 
@@ -36,6 +37,9 @@ class Prayer extends Component {
     if (nextProps.jamaahShow !== this.state.jamaahShow) {
       this.setState({ jamaahShow: nextProps.jamaahShow })
     }
+    if (nextProps.join !== this.state.join) {
+      this.setState({ join: nextProps.join })
+    }
   }
 
   render () {
@@ -45,7 +49,16 @@ class Prayer extends Component {
       iqamah
     if (this.props.nextName === this.props.prayer.name || this.props.nextName === `${this.props.prayer.name} jamaah`) next = 'prayerRow next'; else next = 'prayerRow'
 
-    if (this.state.jamaahShow && this.props.prayer.name !== 'shurooq') {
+    if (this.state.jamaahShow && this.state.join === '1' && this.props.prayer.name === 'isha') {
+      adhan =
+        (<div className='adhanTime'>
+          after
+        </div>)
+      iqamah =
+        (<div className='iqamahTime'>
+          maghrib
+        </div>)
+    } else if (this.state.jamaahShow && this.props.prayer.name !== 'shurooq') {
       adhan =
         (<div className='adhanTime'>
           {this.props.prayer.time.format('H:mm')}
@@ -74,7 +87,6 @@ class Prayer extends Component {
 
         <div className='prayerName'>
           {this.props.prayer.name}
-
         </div>
         {adhan}
         {iqamah}
