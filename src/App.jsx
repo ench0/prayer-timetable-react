@@ -270,7 +270,7 @@ class TimetableApp extends Component {
     } catch (error) {
       console.log(error)
     }
-    
+
     this.setState({
       prayers: this.prayersCalc(this.state.tomorrow),
       day: this.dayCalc(this.state.tomorrow)
