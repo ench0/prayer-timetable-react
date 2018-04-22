@@ -258,13 +258,6 @@ class TimetableApp extends Component {
   async componentWillMount () {
     this.prayersCalc()
 
-    this.setState({
-      prayers: this.prayersCalc(this.state.tomorrow),
-      day: this.dayCalc(this.state.tomorrow)
-    })
-  }
-
-  async componentDidMount () {
     document.title = 'ICCI Timetable'
     try {
       if (await localStorage.getItem('settings') !== 'undefined') {
@@ -277,7 +270,14 @@ class TimetableApp extends Component {
     } catch (error) {
       console.log(error)
     }
+    
+    this.setState({
+      prayers: this.prayersCalc(this.state.tomorrow),
+      day: this.dayCalc(this.state.tomorrow)
+    })
+  }
 
+  async componentDidMount () {
     await this.update()
 
     this.timerID = setInterval(
