@@ -1,15 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-// import logo from './logo.svg';
-// import './App.css';
-
-// import momenttz from 'moment'
 import moment from 'moment-hijri'
 import 'moment-timezone'
-
-// import prayers from '../cities/dublin.json'
-// import settings from '../settings.json'
 
 moment.locale('en-ie')
 
@@ -18,7 +11,7 @@ class Prayer extends Component {
     super(props)
     this.state = {
       jamaahShow: true,
-      join: '0'
+      join: 'no'
     }
   }
 
@@ -73,15 +66,11 @@ class Prayer extends Component {
 
     return (
       <div className={next}>
-
         <div className='prayerName'>
           {this.props.prayer.name}
         </div>
         {adhan}
         {iqamah}
-        {/* <div className='iqamahTime'>
-                    {this.props.prayer.jamaah.time.format('H:mm')}
-                </div> */}
       </div>
     )
   }

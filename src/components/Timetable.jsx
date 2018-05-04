@@ -1,13 +1,6 @@
 import React, { Component } from 'react'
-// import logo from './logo.svg';
-// import './App.css';
 
-// import momenttz from 'moment'
 import moment from 'moment-hijri'
-// import 'moment-timezone'
-
-// import timetable from '../cities/dublin.json'
-// import settings from '../settings.json'
 
 import Prayer from '../components/Prayer'
 
@@ -19,14 +12,13 @@ class Timetable extends Component {
   constructor (props) {
     super(props)
 
-    // var tomorrow = 0
     this.state = {
       timetable: [],
       tomorrow: 0,
       dst: 0,
       prayers: { next: { time: moment(), name: '' }, current: { time: moment(), name: '' }, list: [] },
       jamaahShow: true,
-      join: '0'
+      join: 'no'
     }
   }
 
@@ -37,7 +29,7 @@ class Timetable extends Component {
     if (nextProps.jamaahShow !== this.state.jamaahShow) {
       this.setState({ jamaahShow: nextProps.jamaahShow })
     }
-    if (nextProps.join !== this.state.join) {
+    if (nextProps.join !== this.state.join && nextProps.join !== undefined) {
       this.setState({ join: nextProps.join })
     }
   }
@@ -80,7 +72,6 @@ class Timetable extends Component {
 
         </div>
         {this.renderPrayers()}
-        {/* {console.log(this.state.prayers)} */}
       </div>
     )
   }

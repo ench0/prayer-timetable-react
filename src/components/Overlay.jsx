@@ -13,8 +13,8 @@ class Overlay extends Component {
     this.state = {
       settings: this.props.settings,
       day: this.props.day,
-      title: this.props.title,
-      overlayActive: false
+      overlayActive: false,
+      overlayTitle: 'Welcome'
     }
   }
 
@@ -37,6 +37,9 @@ class Overlay extends Component {
     if (nextProps.overlayActive !== this.state.overlayActive) {
       this.setState({ overlayActive: nextProps.overlayActive })
     }
+    if (nextProps.overlayTitle !== this.state.overlayTitle) {
+      this.setState({ overlayTitle: nextProps.overlayTitle })
+    }
     // console.log(nextProps.overlayActive)
     // console.log(this.state.overlayActive)
   }
@@ -54,7 +57,7 @@ class Overlay extends Component {
         <div>
           {this.state.day.hijri}
         </div>
-        <h1>{this.state.title}</h1>
+        <h1>{this.state.overlayTitle}</h1>
         {/* <div>{this.state.settings.body}</div> */}
         {/* <marquee behavior="scroll" direction="up" className="marquee" scrolldelay="300">{this.state.settings.body}</marquee> */}
 

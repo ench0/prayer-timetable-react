@@ -146,11 +146,11 @@ h3 {
 
 
 .Header div, .Footer div {
-    padding: 0 20px;
+    padding: 0 10px;
     /* text-align: center; */
 }
 .Footer div{
-    width: 33%;
+    /* width: 33%; */
 }
 /* CLOCK COMPONENT */
 .timeRow {

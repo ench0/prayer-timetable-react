@@ -24,6 +24,7 @@ class TimetableApp extends Component {
 
     this.state = {
       timetable: deftimetable,
+      // settings: { join: '' },
       settings: defsettings,
       dst: 0,
       date: new Date(),
@@ -34,10 +35,56 @@ class TimetableApp extends Component {
       jamaahShow: true,
       overlayTitle: 'Welcome',
       jummuahTime: moment({ hour: '13', minute: '10' }).day(5),
+      taraweehTime: moment({ hour: '22', minute: '00' }), // .iMonth(8),
       overlayActive: false,
       refresh: this.props.refresh || 60,
-      timePeriod: ''
+      timePeriod: '',
+      join: 'no'
     }
+  }
+
+  /**********************************************************************
+  STATES
+  **********************************************************************/
+  async componentWillMount () {
+    this.prayersCalc()
+
+    document.title = 'ICCI Timetable'
+    try {
+      if (await localStorage.getItem('settings') !== 'undefined') {
+        var newsettings = await JSON.parse(localStorage.getItem('settings'))
+      }
+      if (await localStorage.getItem('timetable') !== 'undefined') {
+        var newtimetable = await JSON.parse(localStorage.getItem('timetable'))
+      }
+      await this.setState({ settings: newsettings, timetable: newtimetable, join: newsettings.join })
+    } catch (error) {
+      console.log(error)
+    }
+
+    this.setState({
+      prayers: this.prayersCalc(this.state.tomorrow),
+      day: this.dayCalc(this.state.tomorrow)
+    })
+  }
+
+  async componentDidMount () {
+    await this.update()
+
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    )
+    this.updateID = setInterval(
+      () => this.update(),
+      this.state.refresh * 60 * 1000
+
+    )
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.timerID)
+    clearInterval(this.updateID)
   }
 
   /**********************************************************************
@@ -204,7 +251,7 @@ class TimetableApp extends Component {
     // isha-midnight
     else if (moment().isBetween(listToday[5].time, moment().endOf('day'))) {
       // jamaah
-      if (this.state.jamaahShow === true && this.state.settings.join !== '1' && moment().isBetween(listToday[5].time, listToday[5].jamaah.time)) {
+      if (this.state.jamaahShow === true && this.state.join !== '1' && moment().isBetween(listToday[5].time, listToday[5].jamaah.time)) {
         next = { name: `${listToday[5].name} jamaah`, time: listToday[5].jamaah.time }
         tomorrow = 0
         list = listToday
@@ -248,52 +295,14 @@ class TimetableApp extends Component {
   dayCalc (tomorrow) {
     const gregorian = moment().add(tomorrow, 'day').format('dddd, D MMMM YYYY')
     const hijri = moment().add((parseInt(this.state.settings.hijrioffset, 10) + parseInt(tomorrow, 10)), 'day').format('iD iMMMM iYYYY')
-
-    return { gregorian, hijri, tomorrow }
-  }
-
-  /**********************************************************************
-  STATES
-  **********************************************************************/
-  async componentWillMount () {
-    this.prayersCalc()
-
-    document.title = 'ICCI Timetable'
-    try {
-      if (await localStorage.getItem('settings') !== 'undefined') {
-        var newsettings = await JSON.parse(localStorage.getItem('settings'))
-      }
-      if (await localStorage.getItem('timetable') !== 'undefined') {
-        var newtimetable = await JSON.parse(localStorage.getItem('timetable'))
-      }
-      await this.setState({ settings: newsettings, timetable: newtimetable })
-    } catch (error) {
-      console.log(error)
+    let ramadanCountdown
+    // console.log(moment().format('iM'))
+    if (moment().format('iM') === '8') {
+      ramadanCountdown = moment.duration(moment().endOf('imonth').diff(moment().add((parseInt(this.state.settings.hijrioffset) + parseInt(tomorrow)), 'day'))).humanize()
     }
+    else ramadanCountdown = ''
 
-    this.setState({
-      prayers: this.prayersCalc(this.state.tomorrow),
-      day: this.dayCalc(this.state.tomorrow)
-    })
-  }
-
-  async componentDidMount () {
-    await this.update()
-
-    this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    )
-    this.updateID = setInterval(
-      () => this.update(),
-      this.state.refresh * 60 * 1000
-
-    )
-  }
-
-  componentWillUnmount () {
-    clearInterval(this.timerID)
-    clearInterval(this.updateID)
+    return { gregorian, hijri, tomorrow, ramadanCountdown }
   }
 
   /**********************************************************************
@@ -308,6 +317,20 @@ class TimetableApp extends Component {
     if (moment().isBetween(this.state.jummuahTime, this.state.jummuahTime.clone().add(1, 'hour'))) {
       this.setState({
         overlayActive: true
+      })
+    }
+    else if (moment().format('iM') === '8' &&
+      this.state.prayers.current.name === 'isha' &&
+      moment().isBetween(this.state.taraweehTime, this.state.taraweehTime.clone().add(2, 'hour'))) {
+      this.setState({
+        overlayActive: true,
+        overlayTitle: 'Taraweeh Prayer'
+      })
+    }
+    else {
+      this.setState({
+        overlayActive: false,
+        overlayTitle: 'Welcome'
       })
     }
   }
@@ -336,19 +359,19 @@ class TimetableApp extends Component {
     return (
       <div className='TimetableApp'>
 
-        <Overlay settings={this.state.settings} day={this.state.day} title={this.state.overlayTitle} overlayActive={this.state.overlayActive} />
+        <Overlay settings={this.state.settings} day={this.state.day} overlayTitle={this.state.overlayTitle} overlayActive={this.state.overlayActive} />
         <Header settings={this.state.settings} />
         <Clock day={this.state.day} />
         <Timetable
           prayers={this.state.prayers}
           jamaahShow={this.state.jamaahShow}
-          join={this.state.settings.join}
+          join={this.state.join}
         />
         <Countdown
           prayers={this.state.prayers}
         />
         <Message settings={this.state.settings} />
-        <Footer settings={this.state.settings} />
+        <Footer settings={this.state.settings} day={this.state.day} />
 
       </div>
     )

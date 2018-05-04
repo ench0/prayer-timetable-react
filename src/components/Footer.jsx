@@ -11,7 +11,8 @@ class Footer extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      settings: defsettings
+      settings: defsettings,
+      day: {}
     }
   }
 
@@ -19,14 +20,22 @@ class Footer extends Component {
     if (nextProps.settings !== this.state.settings && nextProps.settings !== null) {
       this.setState({ settings: nextProps.settings })
     }
+    if (nextProps.day !== this.state.day && nextProps.day !== null) {
+      this.setState({ day: nextProps.day })
+    }
   }
 
   render () {
     // console.log('!!!', this.state.settings)
+    let ramadan
+    if (this.state.day.ramadanCountdown) {
+      ramadan = <div className='left'>{this.state.day.ramadanCountdown} to Ramadan</div>
+    }
 
     return (
       <div className='Footer'>
         <div className='left'>{this.state.settings.labels.jummuah} {this.state.settings.jummuahtime}</div>
+        {ramadan}
         <div className='center'>
           <Offline>
             <img src={wifiOff} className='wifiOff' alt='wifiOff' />
