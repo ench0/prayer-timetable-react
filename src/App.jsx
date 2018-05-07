@@ -345,7 +345,7 @@ class TimetableApp extends Component {
         await this.setState({ settings, timetable, name })
         await localStorage.setItem('settings', JSON.stringify(settings))
         await localStorage.setItem('timetable', JSON.stringify(timetable))
-        console.log('refreshed')
+        console.log('refreshed:', moment().format('HH:mm'))
       } catch (error) {
         console.log(error)
       }
