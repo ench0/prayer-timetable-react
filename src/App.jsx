@@ -33,13 +33,13 @@ class TimetableApp extends Component {
       tomorrow: 0,
       name: '',
       jamaahShow: true,
-      overlayTitle: 'Welcome',
+      overlayActive: false,
+      overlayTitle: ' ... ',
       jummuahTime: moment({ hour: '13', minute: '10' }).day(5),
       taraweehTime: moment({ hour: '22', minute: '00' }), // .iMonth(8),
-      overlayActive: false,
       refresh: this.props.refresh || 60,
       timePeriod: '',
-      join: 'no'
+      join: '1'
     }
   }
 
@@ -57,7 +57,8 @@ class TimetableApp extends Component {
       if (await localStorage.getItem('timetable') !== 'undefined') {
         var newtimetable = await JSON.parse(localStorage.getItem('timetable'))
       }
-      await this.setState({ settings: newsettings, timetable: newtimetable, join: newsettings.join })
+      // await this.setState({ settings: newsettings, timetable: newtimetable, join: newsettings.join })
+      await this.setState({ settings: newsettings, timetable: newtimetable })
     } catch (error) {
       console.log(error)
     }
@@ -237,30 +238,53 @@ class TimetableApp extends Component {
     }
     // maghrib-isha
     else if (moment().isBetween(listToday[4].time, listToday[5].time)) {
-      // jamaah
-      if (this.state.jamaahShow === true && moment().isBetween(listToday[4].time, listToday[4].jamaah.time)) {
+      // if joined
+      if (this.state.jamaahShow === true && this.state.join === '1' && moment().isBetween(listToday[4].time, listToday[4].jamaah.time)) {
         next = { name: `${listToday[4].name} jamaah`, time: listToday[4].jamaah.time }
+        tomorrow = 0
+        list = listToday
+        timePeriod = 'case 6a'
+      }
+      else if (this.state.jamaahShow === true && this.state.join === '1') {
+        next = { name: listTomorrow[0].name, time: listTomorrow[0].time }
+        tomorrow = 1
+        list = listTomorrow
+        timePeriod = 'case 6b'
+      }
+      // jamaah
+      else if (this.state.jamaahShow === true && moment().isBetween(listToday[4].time, listToday[4].jamaah.time)) {
+        next = { name: `${listToday[4].name} jamaah`, time: listToday[4].jamaah.time }
+        tomorrow = 0
+        list = listToday
       } else {
         next = { name: listToday[5].name, time: listToday[5].time }
+        tomorrow = 0
+        list = listToday
       }
-      tomorrow = 0
       current = { name: listToday[4].name, time: listToday[4].time }
-      list = listToday
-      timePeriod = 'case 6'
+
+      timePeriod = 'case 6c'
     }
     // isha-midnight
     else if (moment().isBetween(listToday[5].time, moment().endOf('day'))) {
+      // if joined
+      if (this.state.jamaahShow === true && this.state.join === '1') {
+        next = { name: listTomorrow[0].name, time: listTomorrow[0].time }
+        tomorrow = 1
+        list = listTomorrow
+        timePeriod = 'case 7a'
+      }
       // jamaah
-      if (this.state.jamaahShow === true && this.state.join !== '1' && moment().isBetween(listToday[5].time, listToday[5].jamaah.time)) {
+      else if (this.state.jamaahShow === true && this.state.join !== '1' && moment().isBetween(listToday[5].time, listToday[5].jamaah.time)) {
         next = { name: `${listToday[5].name} jamaah`, time: listToday[5].jamaah.time }
         tomorrow = 0
         list = listToday
-        timePeriod = 'case 7a'
+        timePeriod = 'case 7b'
       } else {
         tomorrow = 1
         list = listTomorrow
         next = { name: listTomorrow[0].name, time: listTomorrow[0].time }
-        timePeriod = 'case 7b'
+        timePeriod = 'case 7c'
       }
 
       current = { name: listToday[5].name, time: listToday[5].time }
@@ -320,7 +344,7 @@ class TimetableApp extends Component {
       })
     }
     else if (moment().format('iM') === '8' &&
-      this.state.prayers.current.name === 'isha' &&
+    //   this.state.prayers.current.name === 'asr' &&
       moment().isBetween(this.state.taraweehTime, this.state.taraweehTime.clone().add(2, 'hour'))) {
       this.setState({
         overlayActive: true,
@@ -330,7 +354,7 @@ class TimetableApp extends Component {
     else {
       this.setState({
         overlayActive: false,
-        overlayTitle: 'Welcome'
+        overlayTitle: ' ... '
       })
     }
   }
@@ -356,10 +380,18 @@ class TimetableApp extends Component {
   RENDERING
   **********************************************************************/
   render () {
+    // console.log(this.state.overlayActive)
+    let overlay
+    if (this.state.overlayActive) {
+      overlay = <Overlay settings={this.state.settings} day={this.state.day} overlayTitle={this.state.overlayTitle} />
+    }
+    else overlay = ''
+
     return (
       <div className='TimetableApp'>
 
-        <Overlay settings={this.state.settings} day={this.state.day} overlayTitle={this.state.overlayTitle} overlayActive={this.state.overlayActive} />
+        {/* <Overlay settings={this.state.settings} day={this.state.day} overlayTitle={this.state.overlayTitle} overlayActive={this.state.overlayActive} /> */}
+        {overlay}
         <Header settings={this.state.settings} />
         <Clock day={this.state.day} />
         <Timetable

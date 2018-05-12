@@ -41,17 +41,16 @@ h3 {
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba(0,0,0,.0);
+    background: rgba(0,0,0,.85);
     height: 100%;
     width: 100%;
-    /* font-size: 150%; */
-    opacity: 0;
-    transition: background 15s, display 15s, z-index 15s, opacity 15s;
+    /* opacity: 1;
+    transition: background 15s, display 15s, z-index 15s, opacity 15s; */
 }
-.overlayActive {
+/* .overlayActive {
     background: rgba(0,0,0,.85);
     opacity: 1;
-}
+} */
 .Overlay div, .Overlay h1 {
     color: rgba(255,255,255,.75);
 }
