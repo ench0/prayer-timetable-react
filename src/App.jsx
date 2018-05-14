@@ -4,6 +4,7 @@ import moment from 'moment-hijri'
 // import momenttz from 'moment-timezone'
 
 import { prayersCalc, dayCalc } from 'prayer-timetable-lib'
+// import 'prayer-timetable-lib'
 
 import './style/normalize.css'
 import './style/App.css'
@@ -50,7 +51,7 @@ class TimetableApp extends Component {
   STATES
   **********************************************************************/
   async componentWillMount () {
-    prayersCalc(this.state.tomorrow, this.state.settings, this.state.timetable, this.state.jamaahShow, this.state.join, false)
+    prayersCalc(this.state.tomorrow, this.state.settings, this.state.timetable, this.state.jamaahShow, this.state.join, true)
 
     document.title = 'ICCI Timetable'
     try {
@@ -67,6 +68,7 @@ class TimetableApp extends Component {
     }
 
     this.setState({
+      // tomorrow=0, settings={jamaahmethods=[], jamaahoffsets=[]}, timetable, jamaahShow='0', join=false, test=false }
       prayers: prayersCalc(this.state.tomorrow, this.state.settings, this.state.timetable, this.state.jamaahShow, this.state.join, false),
       day: dayCalc(this.state.tomorrow, { hijrioffset: this.state.settings.hijrioffset })
     })
@@ -96,7 +98,7 @@ class TimetableApp extends Component {
   **********************************************************************/
   tick () {
     this.setState({
-      prayers: prayersCalc(this.state.tomorrow, this.state.settings, this.state.timetable, this.state.jamaahShow, this.state.join, false),
+      prayers: prayersCalc(this.state.tomorrow, this.state.settings, this.state.timetable, this.state.jamaahShow, this.state.join, true),
       day: dayCalc(this.state.tomorrow, { hijrioffset: this.state.settings.hijrioffset }),
       tomorrow: this.state.prayers.newtomorrow
     })
@@ -120,8 +122,8 @@ class TimetableApp extends Component {
         overlayTitle: ' ... '
       })
     }
-    console.log(this.state.prayers.newtomorrow)
-    console.log(this.state.tomorrow)
+    // console.log(this.state.prayers.newtomorrow)
+    // console.log(this.state.tomorrow)
   }
 
   async update () {
