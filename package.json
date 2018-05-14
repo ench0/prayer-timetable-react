@@ -4,7 +4,17 @@
   "main": "index.js",
   "license": "MIT",
   "homepage": "http://ensar.me/",
-  "keywords": ["prayer", "timetable", "muslim", "muslim prayer", "prayer timetable", "salat", "salah", "jamaat", "jamaah"],
+  "keywords": [
+    "prayer",
+    "timetable",
+    "muslim",
+    "muslim prayer",
+    "prayer timetable",
+    "salat",
+    "salah",
+    "jamaat",
+    "jamaah"
+  ],
   "private": false,
   "repository": {
     "type": "git",
@@ -25,6 +35,7 @@
     "moment": "^2.22.0",
     "moment-hijri": "^2.0.1",
     "moment-timezone": "^0.5.14",
+    "prayer-timetable-lib": "^1.0.0",
     "prop-types": "^15.6.1",
     "react": "^16.3.1",
     "react-detect-offline": "^2.0.1",
