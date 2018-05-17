@@ -4,7 +4,7 @@ import moment from 'moment-hijri'
 // import momenttz from 'moment-timezone'
 
 import { prayersCalc, dayCalc } from 'prayer-timetable-lib'
-// import 'prayer-timetable-lib'
+// import { prayersCalc, dayCalc } from './test_calc' // for testing purposes
 
 import './style/normalize.css'
 import './style/App.css'
@@ -20,7 +20,6 @@ import Footer from './components/Footer'
 // moment.tz = require('moment-timezone');
 import defsettings from './settings.json'
 import deftimetable from './cities/dublin.json'
-console.log(typeof (prayersCalc))
 
 class TimetableApp extends Component {
   constructor (props) {
@@ -40,10 +39,10 @@ class TimetableApp extends Component {
       overlayActive: false,
       overlayTitle: ' ... ',
       jummuahTime: moment({ hour: '13', minute: '10' }).day(5),
-      taraweehTime: moment({ hour: '22', minute: '00' }), // .iMonth(8),
+      taraweehTime: moment({ hour: '23', minute: '00' }), // .iMonth(8),
       refresh: this.props.refresh || 60,
       timePeriod: '',
-      join: '1'
+      join: '0'
     }
   }
 
@@ -105,10 +104,11 @@ class TimetableApp extends Component {
 
     if (moment().isBetween(this.state.jummuahTime, this.state.jummuahTime.clone().add(1, 'hour'))) {
       this.setState({
-        overlayActive: true
+        overlayActive: true,
+        overlayTitle: 'Jummuah Prayer'
       })
     }
-    else if (moment().format('iM') === '8' &&
+    else if (moment().format('iM') === '9' &&
     //   this.state.prayers.current.name === 'asr' &&
       moment().isBetween(this.state.taraweehTime, this.state.taraweehTime.clone().add(2, 'hour'))) {
       this.setState({
