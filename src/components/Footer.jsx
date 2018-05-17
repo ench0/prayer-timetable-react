@@ -31,11 +31,14 @@ class Footer extends Component {
     if (this.state.day.ramadanCountdown) {
       ramadan = <div className='left'>{this.state.day.ramadanCountdown} to Ramadan</div>
     }
+    let taraweeh
+    if (moment().format('iM') === '9') taraweeh = <div className='left'>Taraweeh {this.props.taraweehTime.format('H:mm')}</div>
 
     return (
       <div className='Footer'>
         <div className='left'>{this.state.settings.labels.jummuah} {this.state.settings.jummuahtime}</div>
         {ramadan}
+        {taraweeh}
         <div className='center'>
           <Offline>
             <img src={wifiOff} className='wifiOff' alt='wifiOff' />

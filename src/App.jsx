@@ -170,7 +170,7 @@ class TimetableApp extends Component {
           prayers={this.state.prayers}
         />
         <Message settings={this.state.settings} />
-        <Footer settings={this.state.settings} day={this.state.day} />
+        <Footer settings={this.state.settings} day={this.state.day} jummuahTime={this.state.jummuahTime} taraweehTime={this.state.taraweehTime} />
 
       </div>
     )
