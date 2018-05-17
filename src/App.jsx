@@ -43,7 +43,8 @@ class TimetableApp extends Component {
       refresh: this.props.refresh || 60,
       timePeriod: '',
       join: '0',
-      log: false
+      log: false,
+      refreshed: moment().format('HH:mm')
     }
   }
 
@@ -137,6 +138,10 @@ class TimetableApp extends Component {
         await this.setState({ settings, timetable, name })
         await localStorage.setItem('settings', JSON.stringify(settings))
         await localStorage.setItem('timetable', JSON.stringify(timetable))
+
+        this.setState({
+          refreshed: moment().format('HH:mm')
+        })
         console.log('refreshed:', moment().format('HH:mm'))
       } catch (error) {
         console.log(error)
@@ -173,7 +178,7 @@ class TimetableApp extends Component {
           prayers={this.state.prayers}
         />
         <Message settings={this.state.settings} />
-        <Footer settings={this.state.settings} day={this.state.day} jummuahTime={this.state.jummuahTime} taraweehTime={this.state.taraweehTime} />
+        <Footer settings={this.state.settings} day={this.state.day} jummuahTime={this.state.jummuahTime} taraweehTime={this.state.taraweehTime} refreshed={this.state.refreshed} />
 
       </div>
     )

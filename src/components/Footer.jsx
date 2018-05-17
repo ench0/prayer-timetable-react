@@ -12,7 +12,8 @@ class Footer extends Component {
     super(props)
     this.state = {
       settings: defsettings,
-      day: {}
+      day: {},
+      refreshed: this.props.refreshed
     }
   }
 
@@ -22,6 +23,9 @@ class Footer extends Component {
     }
     if (nextProps.day !== this.state.day && nextProps.day !== null) {
       this.setState({ day: nextProps.day })
+    }
+    if (nextProps.refreshed !== this.state.refreshed && nextProps.refreshed !== null) {
+      this.setState({ refreshed: nextProps.refreshed })
     }
   }
 
@@ -46,6 +50,9 @@ class Footer extends Component {
           <Online>
             <img src={wifiOn} className='wifiOn' alt='wifiOn' />
           </Online>
+        </div>
+        <div className='right'>
+          Refreshed {this.state.refreshed}
         </div>
         <div className='right'>
           Updated {moment(this.state.settings.updated * 1000).format('DD/MM/YY')}
