@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import moment from 'moment-hijri'
 // import momenttz from 'moment-timezone'
 
-// import { prayersCalc, dayCalc } from 'prayer-timetable-lib'
-import { prayersCalc, dayCalc } from './test_calc' // for testing purposes
+import { prayersCalc, dayCalc } from 'prayer-timetable-lib'
+// import { prayersCalc, dayCalc } from './test_calc' // for testing purposes
 
 import './style/normalize.css'
 import './style/App.css'
@@ -42,7 +42,8 @@ class TimetableApp extends Component {
       taraweehTime: moment({ hour: '23', minute: '00' }), // .iMonth(8),
       refresh: this.props.refresh || 60,
       timePeriod: '',
-      join: '0'
+      join: '0',
+      log: false
     }
   }
 
@@ -50,7 +51,7 @@ class TimetableApp extends Component {
   STATES
   **********************************************************************/
   async componentWillMount () {
-    prayersCalc(this.state.tomorrow, this.state.settings, this.state.timetable, this.state.jamaahShow, this.state.join, true)
+    prayersCalc(this.state.tomorrow, this.state.settings, this.state.timetable, this.state.jamaahShow, this.state.join, this.state.log)
 
     document.title = 'ICCI Timetable'
     try {
@@ -68,7 +69,7 @@ class TimetableApp extends Component {
 
     this.setState({
       // tomorrow=0, settings={jamaahmethods=[], jamaahoffsets=[]}, timetable, jamaahShow='0', join=false, test=false }
-      prayers: prayersCalc(this.state.tomorrow, this.state.settings, this.state.timetable, this.state.jamaahShow, this.state.join, false),
+      prayers: prayersCalc(this.state.tomorrow, this.state.settings, this.state.timetable, this.state.jamaahShow, this.state.join, this.state.log),
       day: dayCalc(this.state.tomorrow, { hijrioffset: this.state.settings.hijrioffset })
     })
   }
@@ -97,7 +98,7 @@ class TimetableApp extends Component {
   **********************************************************************/
   tick () {
     this.setState({
-      prayers: prayersCalc(this.state.tomorrow, this.state.settings, this.state.timetable, this.state.jamaahShow, this.state.join, true),
+      prayers: prayersCalc(this.state.tomorrow, this.state.settings, this.state.timetable, this.state.jamaahShow, this.state.join, this.state.log),
       day: dayCalc(this.state.tomorrow, { hijrioffset: this.state.settings.hijrioffset }),
       tomorrow: this.state.prayers.newtomorrow
     })

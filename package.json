@@ -1,6 +1,6 @@
 {
   "name": "prayer-timetable-react",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "homepage": "http://ensar.me/",
@@ -35,7 +35,7 @@
     "moment": "^2.22.0",
     "moment-hijri": "^2.0.1",
     "moment-timezone": "^0.5.14",
-    "prayer-timetable-lib": "^1.0.5",
+    "prayer-timetable-lib": "^1.0.6",
     "prop-types": "^15.6.1",
     "react": "^16.3.1",
     "react-detect-offline": "^2.0.1",
