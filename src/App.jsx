@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import moment from 'moment-hijri'
 // import momenttz from 'moment-timezone'
 
-import { prayersCalc, dayCalc } from 'prayer-timetable-lib'
-// import { prayersCalc, dayCalc } from './test_calc' // for testing purposes
+// import { prayersCalc, dayCalc } from 'prayer-timetable-lib'
+import { prayersCalc, dayCalc } from './test_calc' // for testing purposes
 
 import './style/normalize.css'
 import './style/App.css'
@@ -148,6 +148,8 @@ class TimetableApp extends Component {
   **********************************************************************/
   render () {
     // console.log(this.state.overlayActive)
+    // console.log(this.state.prayers)
+
     let overlay
     if (this.state.overlayActive) {
       overlay = <Overlay settings={this.state.settings} day={this.state.day} overlayTitle={this.state.overlayTitle} />
