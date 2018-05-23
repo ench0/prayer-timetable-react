@@ -9,7 +9,7 @@ moment.locale('en-ie')
 // console.log(prayers)
 
 class Timetable extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -22,7 +22,7 @@ class Timetable extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.prayers !== this.state.prayers) {
       this.setState({ prayers: nextProps.prayers })
     }
@@ -34,42 +34,39 @@ class Timetable extends Component {
     }
   }
 
-  renderPrayers () {
+  renderPrayers() {
     return (
       <div>
-        {
-          this.state.prayers.list.map((prayer, index) => (
-            <Prayer
-              key={index}
-              prayer={prayer}
-              nextName={this.state.prayers.next.name}
-              jamaahShow={this.state.jamaahShow}
-              join={this.state.join}
-            />)
-          )
-        }
+        {this.state.prayers.list.map((prayer, index) => (
+          <Prayer
+            key={index}
+            prayer={prayer}
+            nextName={this.state.prayers.next.name}
+            jamaahShow={this.state.jamaahShow}
+            join={this.state.join}
+          />
+        ))}
       </div>
     )
   }
 
-  render () {
+  render() {
     let adhan
     let iqamah
     if (this.state.jamaahShow) {
-      adhan = <div className='adhanTime'>Adhan</div>
-      iqamah = <div className='iqamahTime'>Iqamah</div>
+      adhan = <div className="adhanTime">Adhan</div>
+      iqamah = <div className="iqamahTime">Iqamah</div>
     } else {
-      adhan = <div className='adhanTime right'>Adhan</div>
+      adhan = <div className="adhanTime right">Adhan</div>
       iqamah = ''
     }
 
     return (
-      <div className='Timetable'>
-        <div className='prayerHeader'>
-          <div className='prayerName'>Prayer</div>
+      <div className="Timetable">
+        <div className="prayerHeader">
+          <div className="prayerName">Prayer</div>
           {adhan}
           {iqamah}
-
         </div>
         {this.renderPrayers()}
       </div>

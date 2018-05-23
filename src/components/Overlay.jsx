@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 // import settings from '../settings.json'
 
 class Overlay extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -18,19 +18,17 @@ class Overlay extends Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     // this.setState({
     //   overlayActive: false
     // })
   }
 
-  componentDidMount () {
-  }
+  componentDidMount() {}
 
-  componentWillUnmount () {
-  }
+  componentWillUnmount() {}
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.settings !== this.state.settings) {
       this.setState({ settings: nextProps.settings, day: nextProps.day })
     }
@@ -44,7 +42,7 @@ class Overlay extends Component {
     // console.log(this.state.overlayActive)
   }
 
-  render () {
+  render() {
     // let overlayActive
     // console.log(this.state.overlayActive)
     // if (this.state.overlayActive) overlayActive = 'Overlay overlayActive'
@@ -52,16 +50,11 @@ class Overlay extends Component {
     return (
       // <div className={overlayActive}>
       <div className={'Overlay overlayActive'}>
-        <div>
-          {this.state.day.gregorian}
-        </div>
-        <div>
-          {this.state.day.hijri}
-        </div>
+        <div>{this.state.day.gregorian}</div>
+        <div>{this.state.day.hijri}</div>
         <h1>{this.state.overlayTitle}</h1>
         {/* <div>{this.state.settings.body}</div> */}
         {/* <marquee behavior="scroll" direction="up" className="marquee" scrolldelay="300">{this.state.settings.body}</marquee> */}
-
       </div>
     )
   }

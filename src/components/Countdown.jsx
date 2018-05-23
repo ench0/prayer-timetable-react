@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment-hijri'
 
 class Countdown extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -24,16 +24,18 @@ class Countdown extends Component {
   //     clearInterval(this.countdownID)
   // }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     let countdown
 
     if (nextProps.prayers !== this.state.prayers) {
-      const timeToPrayer = moment.duration((this.state.prayers.next.time).diff(moment()), 'milliseconds').add(1, 's') // .asMinutes()
+      const timeToPrayer = moment.duration(this.state.prayers.next.time.diff(moment()), 'milliseconds').add(1, 's') // .asMinutes()
 
       if (timeToPrayer < 1) countdown = '--:--:--'
-
-      else countdown = `${this.appendZero(timeToPrayer.hours())}:${this.appendZero(timeToPrayer.minutes())}:${this.appendZero(timeToPrayer.seconds())}`
-
+      else {
+        countdown = `${this.appendZero(timeToPrayer.hours())}:${this.appendZero(
+          timeToPrayer.minutes()
+        )}:${this.appendZero(timeToPrayer.seconds())}`
+      }
       if (countdown === '00:00:00') countdown = '--:--:--'
 
       this.setState({ prayers: nextProps.prayers, countdown })
@@ -41,24 +43,24 @@ class Countdown extends Component {
     // console.log(nextProps)
   }
 
-    /*
+  /*
     ****************************************************
     APPEND ZERO
     ****************************************************
     */
-    appendZero = (unit) => {
-      if (unit < 10) return `0${unit}`
-      else return `${unit}`
-    }
+  appendZero = unit => {
+    if (unit < 10) return `0${unit}`
+    else return `${unit}`
+  }
 
-    render () {
-      return (
-        <div className='Countdown'>
-          <div>{this.state.prayers.next.name}</div>
-          <div>{this.state.countdown}</div>
-        </div>
-      )
-    }
+  render() {
+    return (
+      <div className="Countdown">
+        <div>{this.state.prayers.next.name}</div>
+        <div>{this.state.countdown}</div>
+      </div>
+    )
+  }
 }
 
 Countdown.propTypes = {

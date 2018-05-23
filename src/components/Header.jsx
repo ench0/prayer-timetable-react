@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import defsettings from '../settings.json'
 
 class Header extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -12,17 +12,17 @@ class Header extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.settings !== this.state.settings && nextProps.settings !== null) {
       this.setState({ settings: nextProps.settings })
     }
   }
 
-  render () {
+  render() {
     return (
-      <div className='Header'>
+      <div className="Header">
         <div />
-        <div className='center'>{this.state.settings.title}</div>
+        <div className="center">{this.state.settings.title}</div>
         <div />
       </div>
     )
