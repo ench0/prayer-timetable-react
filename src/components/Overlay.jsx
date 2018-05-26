@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 // import logo from './logo.svg';
 // import './App.css';
-// import moment from 'moment-hijri'
+import moment from 'moment-hijri'
 // import settings from '../settings.json'
 
 class Overlay extends Component {
@@ -11,8 +11,7 @@ class Overlay extends Component {
     super(props)
 
     this.state = {
-      settings: this.props.settings,
-      day: this.props.day,
+      // day: this.props.day,
       //   overlayActive: false,
       overlayTitle: ' ... '
     }
@@ -29,9 +28,9 @@ class Overlay extends Component {
   componentWillUnmount() {}
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.settings !== this.state.settings) {
-      this.setState({ settings: nextProps.settings, day: nextProps.day })
-    }
+    // if (nextProps.day !== this.state.day) {
+    //   this.setState({ day: nextProps.day })
+    // }
     // if (nextProps.overlayActive !== this.state.overlayActive) {
     //   this.setState({ overlayActive: nextProps.overlayActive })
     // }
@@ -50,8 +49,10 @@ class Overlay extends Component {
     return (
       // <div className={overlayActive}>
       <div className={'Overlay overlayActive'}>
-        <div>{this.state.day.gregorian}</div>
-        <div>{this.state.day.hijri}</div>
+        {/* <div>{this.state.day.gregorian}</div>
+        <div>{this.state.day.hijri}</div> */}
+        <div>{moment().format('dddd, DD MMMM YYYY')}</div>
+        <div>{moment().format('iDD iMMMM iYYYY')}</div>
         <h1>{this.state.overlayTitle}</h1>
         {/* <div>{this.state.settings.body}</div> */}
         {/* <marquee behavior="scroll" direction="up" className="marquee" scrolldelay="300">{this.state.settings.body}</marquee> */}

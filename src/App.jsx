@@ -11,7 +11,7 @@ import './style/App.css'
 
 import Overlay from './components/Overlay'
 import Clock from './components/Clock'
-import Timetable from './components/Timetable'
+import Prayers from './components/Prayers'
 import Countdown from './components/Countdown'
 import Message from './components/Message'
 import Header from './components/Header'
@@ -142,6 +142,21 @@ class TimetableApp extends Component {
         overlayActive: true,
         overlayTitle: 'Taraweeh Prayer'
       })
+    } else if (
+      moment().format('iM') === '9' &&
+      //   this.state.prayers.current.name === 'asr' &&
+      moment().isBetween(
+        moment().startOf('day'),
+        moment()
+          .startOf('day')
+          .clone()
+          .add(1, 'hour')
+      )
+    ) {
+      this.setState({
+        overlayActive: true,
+        overlayTitle: 'Taraweeh Prayer'
+      })
     } else {
       this.setState({
         overlayActive: false,
@@ -180,7 +195,7 @@ class TimetableApp extends Component {
   **********************************************************************/
   render() {
     // console.log(this.state.overlayActive)
-    // console.log(this.state.prayers)
+    // console.log(this.state.day)
 
     let overlay
     if (this.state.overlayActive) {
@@ -193,7 +208,7 @@ class TimetableApp extends Component {
         {overlay}
         <Header settings={this.state.settings} />
         <Clock day={this.state.day} />
-        <Timetable prayers={this.state.prayers} jamaahShow={this.state.jamaahShow} join={this.state.join} />
+        <Prayers prayers={this.state.prayers} jamaahShow={this.state.jamaahShow} join={this.state.join} />
         <Countdown prayers={this.state.prayers} />
         <Message settings={this.state.settings} />
         <Footer

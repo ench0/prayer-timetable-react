@@ -8,7 +8,7 @@ moment.locale('en-ie')
 
 // console.log(prayers)
 
-class Timetable extends Component {
+class Prayers extends Component {
   constructor(props) {
     super(props)
 
@@ -74,4 +74,4 @@ class Timetable extends Component {
   }
 }
 
-export default Timetable
+export default Prayers
