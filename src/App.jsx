@@ -69,12 +69,13 @@ class TimetableApp extends Component {
     try {
       if ((await localStorage.getItem('settings')) !== 'undefined') {
         var newsettings = await JSON.parse(localStorage.getItem('settings'))
+        await this.setState({ settings: newsettings })
       }
       if ((await localStorage.getItem('timetable')) !== 'undefined') {
         var newtimetable = await JSON.parse(localStorage.getItem('timetable'))
+        await this.setState({ timetable: newtimetable })
       }
       // await this.setState({ settings: newsettings, timetable: newtimetable, join: newsettings.join })
-      await this.setState({ settings: newsettings, timetable: newtimetable })
     } catch (error) {
       console.log(error)
     }
